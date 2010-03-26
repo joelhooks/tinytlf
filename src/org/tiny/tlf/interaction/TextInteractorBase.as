@@ -79,11 +79,8 @@ package org.tiny.tlf.interaction
     
     protected function eventHandler(event:Event):void
     {
-      var tmp:Vector.<IGesture> = gestures.concat();
-      while(tmp.length > 0)
-      {
-        tmp.pop().execute(event);
-      }
+      for each(var gesture:IGesture in gestures)
+        gesture.execute(event);
     }
   }
 }

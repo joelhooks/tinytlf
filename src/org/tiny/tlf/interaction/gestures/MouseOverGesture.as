@@ -1,21 +1,18 @@
 package org.tiny.tlf.interaction.gestures
 {
   import flash.events.Event;
+  import flash.events.MouseEvent;
   
   public class MouseOverGesture extends GestureBase
   {
     public function MouseOverGesture()
     {
-      state.appendChild(<mouseMove></mouseMove>);
-      currentState = state;
+      hsm.appendChild(<moved/>);
     }
     
-    override public function execute(event:Event):void
+    public function moved(event:Event):Boolean
     {
-      super.execute(event);
-      
-      if(currentState.localName() == event.type)
-        notifyBehaviors(event);
+      return event.type == MouseEvent.MOUSE_MOVE;
     }
   }
 }

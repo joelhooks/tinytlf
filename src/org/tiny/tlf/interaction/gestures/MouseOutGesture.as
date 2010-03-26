@@ -1,21 +1,18 @@
 package org.tiny.tlf.interaction.gestures
 {
   import flash.events.Event;
+  import flash.events.MouseEvent;
 
   public class MouseOutGesture extends GestureBase
   {
     public function MouseOutGesture()
     {
-      state.appendChild(<mouseOut></mouseOut>);
-      currentState = state;
+      hsm.appendChild(<out/>);
     }
     
-    override public function execute(event:Event):void
+    public function out(event:Event):Boolean
     {
-      super.execute(event);
-      
-      if(currentState.localName() == event.type)
-        notifyBehaviors(event);
+      return event.type == MouseEvent.MOUSE_OUT;
     }
   }
 }

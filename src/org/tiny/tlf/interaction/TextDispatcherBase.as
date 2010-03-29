@@ -10,17 +10,20 @@ package org.tiny.tlf.interaction
   
   public class TextDispatcherBase extends EventDispatcher
   {
-    public function TextDispatcherBase(target:IEventDispatcher=null)
+    public function TextDispatcherBase(target:IEventDispatcher = null, addListeners:Boolean = true)
     {
       super(target);
       
-      addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
-      addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
-      addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
-      addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-      
-      addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-      addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+      if(addListeners)
+      {
+        addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+        addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+        addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+        addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+        
+        addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+        addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+      }
     }
     
     protected static const stateUp:uint = 0x0001;
@@ -40,6 +43,7 @@ package org.tiny.tlf.interaction
     }
     
     private static var doubleClickTime:int = 0;
+    
     protected function mouseDownHandler(event:MouseEvent):void
     {
       var time:int = getTimer();

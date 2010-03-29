@@ -12,7 +12,5 @@ package org.tiny.tlf.interaction
     function set blockFactory(factory:IBlockFactory):void;
     
     function get dispatcher():EventDispatcher;
-    
-    function addGesture(gesture:IGesture):void;
   }
 }

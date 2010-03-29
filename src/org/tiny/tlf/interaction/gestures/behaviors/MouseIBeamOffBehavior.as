@@ -5,7 +5,7 @@ package org.tiny.tlf.interaction.gestures.behaviors
   
   import org.tiny.tlf.events.GestureEvent;
   
-  public class MouseIBeamOffBehavior extends BehaviorBase
+  public class MouseIBeamOffBehavior extends Behavior
   {
     override protected function activate(event:GestureEvent):void
     {

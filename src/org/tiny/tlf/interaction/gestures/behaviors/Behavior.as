@@ -5,11 +5,11 @@ package org.tiny.tlf.interaction.gestures.behaviors
   import org.tiny.tlf.events.GestureEvent;
   import org.tiny.tlf.interaction.TextDispatcherBase;
   
-  public class BehaviorBase extends TextDispatcherBase
+  public class Behavior extends TextDispatcherBase
   {
-    public function BehaviorBase(target:IEventDispatcher=null)
+    public function Behavior(target:IEventDispatcher=null)
     {
-      super(target);
+      super(target, false);
       
       addEventListener(GestureEvent.ACTIVATED, activate);
     }

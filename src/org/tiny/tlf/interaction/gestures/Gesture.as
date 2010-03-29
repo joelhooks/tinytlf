@@ -5,9 +5,39 @@ package org.tiny.tlf.interaction.gestures
   
   import org.tiny.tlf.events.GestureEvent;
   
-  public class GestureBase implements IGesture
+  public class Gesture implements IGesture
   {
-    public function GestureBase()
+    public function Gesture()
+    {
+    }
+    
+    private var _target:IEventDispatcher;
+    public function get target():IEventDispatcher
+    {
+      return _target;
+    }
+    
+    public function set target(value:IEventDispatcher):void
+    {
+      if(value === _target)
+        return;
+      
+      if(_target)
+        removeListeners(_target);
+      
+      _target = value;
+      
+      if(_target)
+        addListeners(_target);
+      
+      resetStates();
+    }
+    
+    protected function addListeners(target:IEventDispatcher):void
+    {
+    }
+    
+    protected function removeListeners(target:IEventDispatcher):void
     {
     }
     
@@ -25,7 +55,7 @@ package org.tiny.tlf.interaction.gestures
     public function execute(event:Event):void
     {
       var childStates:XMLList = getChildStates();
-      states = <>{hsm}</>;
+      resetStates();
       for each(var childState:XML in childStates)
       {
         if(states.contains(childState))
@@ -39,17 +69,23 @@ package org.tiny.tlf.interaction.gestures
         
         if(testNotifiable(childState))
           notifyBehaviors(event);
-        else if(!states.contains(childState))
-          states.appendChild(childState);
+        
+        states += childState;
       }
+    }
+    
+    protected function resetStates():void
+    {
+      states = <>{hsm}</>;
     }
     
     protected function getChildStates():XMLList
     {
-      var childStates:XMLList = states.(!attribute('idrefs').length() || attribute('idrefs') == "*").*;
+      var childStates:XMLList = states/*.(!attribute('idrefs').length() || attribute('idrefs') == "*")*/.*;
+      var namedStates:XMLList = hsm..*.(attribute('id').length());
       for each(var childStateID:String in states.@idrefs.toXMLString().split(/\s+/))
         if(childStateID)
-          childStates += states..*.(attribute('id') == childStateID);
+          childStates += namedStates.(@id == childStateID);
       
       return childStates;
     }

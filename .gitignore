@@ -8,3 +8,6 @@ docs
 build/build.properties
 reports/link-report.xml
 reports/link-report.html
+CVS
+CVS-*
+CVS/*

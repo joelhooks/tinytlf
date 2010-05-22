@@ -12,12 +12,12 @@ package org.tinytlf.decor
     
     function removeAll():void;
     
-    function decorate(element:*, container:ITextContainer, decorationProp:String = null, value:* = null, layer:int = 0, styleNameOrStylesObj:Object = null):void;
+    function decorate(element:*, container:ITextContainer = null, decorationProp:String = null, value:* = null, layer:int = 0, styleNameOrStylesObj:Object = null):void;
     function undecorate(element:* = null, decorationProp:String = null):void;
     
     function mapDecoration(decorationProp:String, decorationClassOrInstance:Object):void;
     function unMapDecoration(decorationProp:String):Boolean;
     function hasDecoration(decorationProp:String):Boolean;
-    function getDecoration(decorationProp:String, container:ITextContainer):ITextDecoration;
+    function getDecoration(decorationProp:String, container:ITextContainer = null):ITextDecoration;
   }
 }

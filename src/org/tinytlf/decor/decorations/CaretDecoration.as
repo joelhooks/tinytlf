@@ -11,9 +11,9 @@ package org.tinytlf.decor.decorations
       super(styleName);
     }
     
-    override public function draw(parent:Sprite, bounds:Vector.<Rectangle>):void
+    override public function draw(bounds:Vector.<Rectangle>):void
     {
-      super.draw(parent, bounds);
+      super.draw(bounds);
     }
   }
 }

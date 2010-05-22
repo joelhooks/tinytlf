@@ -77,7 +77,7 @@ package org.tinytlf.interaction
     public function addListeners(target:IEventDispatcher):void
     {
       target.addEventListener(MouseEvent.MOUSE_OVER, onRollOver, false, 0, true);
-      target.addEventListener(MouseEvent.MOUSE_OUT, onRollOver, false, 0, true);
+      target.addEventListener(MouseEvent.MOUSE_OUT, onRollOut, false, 0, true);
       
       target.addEventListener(MouseEvent.ROLL_OVER, onRollOver, false, 0, true);
       target.addEventListener(MouseEvent.ROLL_OUT, onRollOut, false, 0, true);
@@ -93,7 +93,7 @@ package org.tinytlf.interaction
     public function removeListeners(target:IEventDispatcher):void
     {
       target.removeEventListener(MouseEvent.MOUSE_OVER, onRollOver);
-      target.removeEventListener(MouseEvent.MOUSE_OUT, onRollOver);
+      target.removeEventListener(MouseEvent.MOUSE_OUT, onRollOut);
       
       target.removeEventListener(MouseEvent.ROLL_OVER, onRollOver);
       target.removeEventListener(MouseEvent.ROLL_OUT, onRollOut);

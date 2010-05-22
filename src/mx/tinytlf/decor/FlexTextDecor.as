@@ -11,10 +11,14 @@ package mx.tinytlf.decor
       super();
     }
     
-    override public function getDecoration(styleProp:String, container:ITextContainer):ITextDecoration
+    override public function getDecoration(styleProp:String, container:ITextContainer = null):ITextDecoration
     {
       var dec:ITextDecoration = super.getDecoration(styleProp, container);
-      dec.styleProxy = new FlexStyleProxy(dec.styleName);
+      
+      //Hoook this decoration into the Flex StyleManager
+      if(dec)
+        dec.styleProxy = new FlexStyleProxy(dec.styleName);
+      
       return dec;
     }
   }

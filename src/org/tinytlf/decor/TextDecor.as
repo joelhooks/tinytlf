@@ -44,7 +44,7 @@ package org.tinytlf.decor
         layer = layers[i];
         for(element in layer)
           for each(decoration in layer[element])
-            decoration.draw(new Sprite(), decoration.setup(element));
+            decoration.draw(decoration.setup(element));
       }
     }
     
@@ -133,7 +133,7 @@ package org.tinytlf.decor
      * more than 'first-come, first-served.'
      *
      */
-    public function decorate(element:*, container:ITextContainer, decorationProp:String = null, value:* = null, layer:int = 0, styleObj:Object = null):void
+    public function decorate(element:*, container:ITextContainer = null, decorationProp:String = null, value:* = null, layer:int = 0, styleObj:Object = null):void
     {
       if(!hasDecoration(decorationProp) && !styleObj)
         return;
@@ -164,7 +164,8 @@ package org.tinytlf.decor
       }
       else if(styleObj)
         for(styleProp in styleObj)
-          ITextDecoration(theLayer[element][styleProp] = getDecoration(styleProp, container)).styleProxy = styleObj;
+          if(hasDecoration(styleProp))
+            ITextDecoration(theLayer[element][styleProp] = getDecoration(styleProp, container)).styleProxy = styleObj;
       
       engine.invalidateDecorations();
     }
@@ -237,7 +238,7 @@ package org.tinytlf.decor
       return Boolean(decorationProp in decorationsMap);
     }
     
-    public function getDecoration(styleProp:String, container:ITextContainer):ITextDecoration
+    public function getDecoration(styleProp:String, container:ITextContainer = null):ITextDecoration
     {
       if(!hasDecoration(styleProp))
         return null;
@@ -253,7 +254,13 @@ package org.tinytlf.decor
       if(!decoration)
         return null;
       
-      ITextDecoration(decoration).container = container;
+      var vec:Vector.<ITextContainer> = new Vector.<ITextContainer>();
+      if(container)
+        vec.push(container);
+      
+      ITextDecoration(decoration).containers = vec;
+      
+      ITextDecoration(decoration).engine = engine;
       
       return ITextDecoration(decoration);
     }

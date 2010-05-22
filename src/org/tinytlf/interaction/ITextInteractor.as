@@ -11,8 +11,8 @@ package org.tinytlf.interaction
     function set engine(textEngine:ITextEngine):void;
     
     /**
-    * Returns an IEventDispatcher for an element name. Typically an
-    * IBlockFactory calls this when he is creating a ContentElement
+    * Returns an EventDispatcher for an element name. Typically an
+    * IModelAdapter calls this when he is creating a ContentElement
     * and is ready to specify an eventMirror.
     */
     function getMirror(elementName:String = ""):EventDispatcher;

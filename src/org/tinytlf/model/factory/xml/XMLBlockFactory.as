@@ -1,13 +1,16 @@
-package org.tinytlf.block
+package org.tinytlf.model.factory.xml
 {
   import flash.events.EventDispatcher;
   import flash.text.engine.ContentElement;
   import flash.text.engine.GroupElement;
   import flash.text.engine.TextElement;
   
-  public class StandardBlockFactory extends AbstractBlockFactory
+  import org.tinytlf.model.adapter.IModelAdapter;
+  import org.tinytlf.model.factory.AbstractBlockFactory;
+  
+  public class XMLBlockFactory extends AbstractBlockFactory
   {
-    public function StandardBlockFactory()
+    public function XMLBlockFactory()
     {
       super();
     }
@@ -29,20 +32,26 @@ package org.tinytlf.block
       if(!node)
         return null;
       
+      var adapter:IModelAdapter = getModelAdapter(parentName);
       var content:ContentElement;
-      if(node.children().length() > 1)
+      
+      if(node.descendants().length() > 1)
       {
         var elements:Vector.<ContentElement> = new Vector.<ContentElement>();
         for each(var child:XML in node.children())
         {
           elements.push(getElementForNode(child, String(node.localName())));
         }
-        content = new GroupElement(elements, engine.styler.getElementFormat(String(node.localName())), engine.interactor.getMirror(String(node.localName())) as EventDispatcher);
+        
+        content = adapter.execute(elements, parentName, node.attributes());
       }
-      else if(node.children().length() == 1)
-        content = new TextElement(node.text().toString(), engine.styler.getElementFormat(node.localName()), engine.interactor.getMirror(node.localName()) as EventDispatcher);
+      else if(node.descendants().length() == 1)
+      {
+        adapter = getModelAdapter(node.localName());
+        content = adapter.execute(node.text().toString(), node.localName(), node.attributes());
+      }
       else
-        content = new TextElement(node.toString(), engine.styler.getElementFormat(parentName), engine.interactor.getMirror(parentName) as EventDispatcher);
+        content = adapter.execute(node.toString(), parentName, node.attributes());
       
       return content;
     }

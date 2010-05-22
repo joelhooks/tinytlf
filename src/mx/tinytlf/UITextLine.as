@@ -43,7 +43,7 @@ package mx.tinytlf
       width = line.width;
       line.y = height = line.height;
       
-      if(line.mirrorRegions)
+      /*if(line.mirrorRegions)
       {
         var regions:Vector.<TextLineMirrorRegion> = line.mirrorRegions.concat();
         var n:int = regions.length;
@@ -56,7 +56,7 @@ package mx.tinytlf
           if(dispatcher is TextDispatcherBase)
             TextDispatcherBase(dispatcher).addListeners(this);
         }
-      }
+      }*/
       
       addChild(line);
     }

@@ -2,7 +2,7 @@ package org.tinytlf
 {
   import flash.text.engine.TextLine;
   
-  import org.tinytlf.block.IBlockFactory;
+  import org.tinytlf.model.factory.IBlockFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
   import org.tinytlf.layout.ITextContainer;

@@ -1,9 +1,14 @@
-package org.tinytlf.block
+package org.tinytlf.model.factory
 {
-  import org.tinytlf.ITextEngine;
-  
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;
+  import flash.utils.Dictionary;
+  
+  import mx.core.IFactory;
+  
+  import org.tinytlf.ITextEngine;
+  import org.tinytlf.model.adapter.IModelAdapter;
+  import org.tinytlf.model.adapter.ContentElementAdapterBase;
   
   public class AbstractBlockFactory implements IBlockFactory
   {
@@ -86,6 +91,46 @@ package org.tinytlf.block
     protected function executeBlockHooks(block:TextBlock):TextBlock
     {
       return block;
+    }
+    
+    protected var adapterMap:Dictionary = new Dictionary(false);
+    
+    public function getModelAdapter(element:*):IModelAdapter
+    {
+      var adapter:*;
+      
+      //Return the generic adapter if we haven't mapped any.
+      if(!(element in adapterMap))
+      {
+        adapter = new ContentElementAdapterBase();
+        IModelAdapter(adapter).engine = engine;
+        return adapter;
+      }
+      
+      adapter = adapterMap[element];
+      if(adapter is IFactory)
+        adapter = IModelAdapter(IFactory(adapter).newInstance());
+      if(adapter is Class)
+        adapter = IModelAdapter(new adapter());
+      if(adapter is Function)
+        adapter = IModelAdapter((adapter as Function)());
+      
+      IModelAdapter(adapter).engine = engine;
+      
+      return IModelAdapter(adapter);
+    }
+    
+    public function mapModelAdapter(element:*, adapterClassOrInstance:Object):void
+    {
+      adapterMap[element] = adapterClassOrInstance;
+    }
+    
+    public function unMapModelAdapter(element:*):Boolean
+    {
+      if(!(element in adapterMap))
+        return false;
+      
+      return delete adapterMap[element];
     }
   }
 }

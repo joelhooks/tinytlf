@@ -1,6 +1,7 @@
 package mx.tinytlf
 {
   import flash.display.DisplayObject;
+  import flash.events.Event;
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
@@ -13,15 +14,15 @@ package mx.tinytlf
   import mx.tinytlf.layout.FlexTextContainer;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.block.IBlockFactory;
   import org.tinytlf.decor.decorations.BackgroundColorDecoration;
   import org.tinytlf.decor.decorations.StrikeThroughDecoration;
   import org.tinytlf.decor.decorations.UnderlineDecoration;
   import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.model.factory.IBlockFactory;
   
   use namespace mx_internal;
   
-  public class FlexFTETextArea extends Canvas implements IBlockFactory
+  public class FlexFTETextArea extends Canvas
   {
     public function FlexFTETextArea()
     {
@@ -29,7 +30,6 @@ package mx.tinytlf
       
       minWidth = 100;
       minHeight = 100;
-    
     }
     
     private var _container:ITextContainer;
@@ -51,20 +51,29 @@ package mx.tinytlf
       _container.container = this;
     }
     
+    override public function set data(value:Object):void
+    {
+      var changed:Boolean = (value !== super.data);
+      super.data = value;
+      if(changed)
+      {
+        textNeedsRender = true;
+        invalidateProperties();
+      }
+    }
+    
     private var _engine:ITextEngine;
     
     public function get engine():ITextEngine
     {
       if(!stage)
-        throw new Error('The engine must only be accessed once the component is on the stage.');
+        throw new Error('The engine can only be accessed once the FlexFTETextArea is on the stage.');
       
       if(!_engine)
       {
         _engine = new FlexTextEngine(stage);
         _engine.addContainer(container);
       }
-      
-      _engine.blockFactory = this;
       
       return _engine;
     }
@@ -75,56 +84,6 @@ package mx.tinytlf
         return;
       
       _engine = textEngine;
-    }
-    
-    
-    protected var _blocks:Vector.<TextBlock> = new Vector.<TextBlock>();
-    
-    /**
-     * Returns a copy of the TextBlocks this IBlockFactory has created.
-     */
-    public function get blocks():Vector.<TextBlock>
-    {
-      return _blocks.concat();
-    }
-    
-    protected var _elements:Vector.<ContentElement> = new Vector.<ContentElement>();
-    
-    /**
-     * Returns a copy of the ContentElements this IBlockFactory has created.
-     */
-    public function get elements():Vector.<ContentElement>
-    {
-      return _elements.concat();
-    }
-    
-    public function createBlocks(... parameters):Vector.<TextBlock>
-    {
-      if(_blocks != null)
-      {
-        var block:TextBlock;
-        while(_blocks.length > 0)
-        {
-          block = _blocks.pop();
-          block.releaseLines(block.firstLine, block.lastLine);
-        }
-      }
-      else
-      {
-        _blocks = new Vector.<TextBlock>();
-      }
-      
-      var elements:Vector.<ContentElement> = createElements.apply(null, parameters);
-      
-      while(elements.length > 0)
-        _blocks.push(hookBlock(new TextBlock(elements.shift())));
-      
-      return _blocks;
-    }
-    
-    public function createElements(... parameters):Vector.<ContentElement>
-    {
-      return _elements;
     }
     
     /**
@@ -182,9 +141,16 @@ package mx.tinytlf
     {
       super.commitProperties();
       
+      if(!stage && textNeedsRender)
+      {
+        textNeedsRender = true;
+        addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+        return;
+      }
+      
       if(textNeedsRender)
       {
-        if((isSizeSpecialCase && isNaN(lastUnscaledWidth)) || isNaN(lastUnscaledWidth))
+        if(isSizeSpecialCase && isNaN(lastUnscaledWidth))
         {
           invalidateDisplayList();
           return;
@@ -192,10 +158,13 @@ package mx.tinytlf
         
         // Create the TextBlocks/Render the TextLines.
         var vm:EdgeMetrics = viewMetricsAndPadding;
-        var _w:Number = lastUnscaledWidth - vm.left - vm.right;
-        _w -= (verticalScrollPolicy == ScrollPolicy.ON || (verticalScrollPolicy == ScrollPolicy.AUTO && verticalScrollBar)) ? verticalScrollBar.getExplicitOrMeasuredWidth() : 0;
+        var w:Number = lastUnscaledWidth - vm.left - vm.right;
+        w -= (verticalScrollPolicy == ScrollPolicy.ON || (verticalScrollPolicy == ScrollPolicy.AUTO && verticalScrollBar)) ?
+          verticalScrollBar.getExplicitOrMeasuredWidth() : 0;
         
-        container.width = _w;
+        container.width = w;
+        
+        engine.blockFactory.data = data;
         
         renderText();
         
@@ -243,6 +212,14 @@ package mx.tinytlf
       var right:Number = getStyle("right");
       
       return (!isNaN(percentWidth) || (!isNaN(left) && !isNaN(right))) && isNaN(explicitHeight) && isNaN(percentHeight);
+    }
+    
+    protected function onAddedToStage(event:Event):void
+    {
+      removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+      
+      if(textNeedsRender)
+        invalidateProperties();
     }
   }
 }

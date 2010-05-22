@@ -1,5 +1,6 @@
 package org.tinytlf.decor
 {
+  import flash.display.DisplayObjectContainer;
   import flash.display.Sprite;
   import flash.events.Event;
   import flash.events.EventDispatcher;
@@ -9,12 +10,12 @@ package org.tinytlf.decor
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
   import flash.text.engine.TextLineMirrorRegion;
-  import flash.utils.Proxy;
-  import flash.utils.describeType;
+  import flash.utils.Dictionary;
   import flash.utils.flash_proxy;
   
   import mx.tinytlf.UITextLine;
   
+  import org.tinytlf.ITextEngine;
   import org.tinytlf.core.StyleAwareActor;
   import org.tinytlf.layout.ITextContainer;
   
@@ -27,24 +28,41 @@ package org.tinytlf.decor
       super(styleName);
     }
     
-    private var _container:ITextContainer;
-    public function get container():ITextContainer
+    private var _containers:Vector.<ITextContainer>;
+    public function get containers():Vector.<ITextContainer>
     {
-      return _container;
+      return _containers;
     }
     
-    public function set container(textContainer:ITextContainer):void
+    public function set containers(textContainers:Vector.<ITextContainer>):void
     {
-      if(textContainer === _container)
+      if(textContainers === _containers)
         return;
       
-      _container = textContainer;
+      _containers = textContainers;
+    }
+    
+    protected var _engine:ITextEngine;
+    
+    public function get engine():ITextEngine
+    {
+      return _engine;
+    }
+    
+    public function set engine(textEngine:ITextEngine):void
+    {
+      if(textEngine == _engine)
+        return;
+      
+      _engine = textEngine;
     }
     
     public function set styleProxy(proxy:Object):void
     {
       styles = proxy;
     }
+    
+    private var derivedParent:DisplayObjectContainer;
     
     public function setup(... args):Vector.<Rectangle>
     {
@@ -63,11 +81,34 @@ package org.tinytlf.decor
           return bounds;
         
         var region:TextLineMirrorRegion;
+        var rect:Rectangle;
+        var line:DisplayObjectContainer;
         
         while(regions.length > 0)
         {
           region = regions.pop();
-          bounds.push(new Rectangle(region.bounds.x + region.textLine.x, region.bounds.y + region.textLine.y, region.bounds.width, region.bounds.height));
+          rect = region.bounds;
+          line = region.textLine.parent is UITextLine ? region.textLine.parent : region.textLine;;
+          
+          bounds.push(new Rectangle(rect.x + line.x, rect.y + rect.height + line.y, rect.width, rect.height));
+        }
+        
+        // @TODO
+        // When you specify decorations for a ContentElement, there's no way to
+        // associate it with ITextContainers yet. This is a hack that grabs the
+        // containers that hold the TextLines that this element is rendered with.
+        // It might be better if this exists somewhere else, like if ITextLayout
+        // could update Decor for any decorations that are keyed off ContentElements.
+        if(containers.length == 0)
+        {
+          var lines:Vector.<TextLine> = getTextLines(element);
+          var container:ITextContainer;
+          while(lines.length)
+          {
+            container = engine.getContainerForLine(lines.shift());
+            if(containers.indexOf(container) ==  -1)
+              containers.push(container);
+          }
         }
       }
       else if(arg is TextLine)
@@ -88,10 +129,45 @@ package org.tinytlf.decor
       return bounds;
     }
     
-    public function draw(parent:Sprite, bounds:Vector.<Rectangle>):void
+    protected var spriteMap:Dictionary = new Dictionary(true);
+    
+    public function draw(bounds:Vector.<Rectangle>):void
     {
-      container.shapes.addChild(parent);
-      parent.graphics.clear();
+      if(!containers)
+        return;
+      
+      spriteMap = new Dictionary(true);
+      
+      // 1. Iterate over containers
+      // 2. Iterate over bounds
+      // 3. Check intersection
+      // 4. possibly create sprite -- add it to container.shapes
+      // 5. associate bounds with proper sprite
+      
+      var i:int = 0;
+      var n:int = containers.length;
+      var j:int = 0;
+      var k:int = bounds.length;
+      
+      var container:ITextContainer;
+      var doc:DisplayObjectContainer;
+      
+      for(i = 0; i < n; i++)
+      {
+        container = containers[i];
+        doc = container.container;
+        
+        for(j = 0; j < k; j++)
+        {
+          if(bounds[j].intersects(doc.getBounds(doc)))
+          {
+            if(! (container in spriteMap))
+              spriteMap[container] = container.shapes.addChild(new Sprite());
+            
+            spriteMap[bounds[j]] = spriteMap[container];
+          }
+        }
+      }
     }
     
     protected function getTextBlock(element:ContentElement):TextBlock

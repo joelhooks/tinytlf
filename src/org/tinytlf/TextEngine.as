@@ -9,8 +9,8 @@ package org.tinytlf
   import flash.text.engine.TextLine;
   import flash.utils.setTimeout;
   
-  import org.tinytlf.block.AbstractBlockFactory;
-  import org.tinytlf.block.IBlockFactory;
+  import org.tinytlf.model.factory.AbstractBlockFactory;
+  import org.tinytlf.model.factory.IBlockFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.decor.TextDecor;
   import org.tinytlf.interaction.ITextInteractor;

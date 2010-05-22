@@ -3,6 +3,7 @@ package org.tinytlf.decor.decorations
   import flash.display.Sprite;
   import flash.geom.Point;
   import flash.geom.Rectangle;
+  
   import org.tinytlf.decor.TextDecoration;
   
   public class UnderlineDecoration extends TextDecoration
@@ -12,18 +13,20 @@ package org.tinytlf.decor.decorations
       super();
     }
     
-    override public function draw(parent:Sprite, bounds:Vector.<Rectangle>):void
+    override public function draw(bounds:Vector.<Rectangle>):void
     {
-      super.draw(parent, bounds);
+      super.draw(bounds);
       
       var underlineDelta:Number = Math.round((getStyle("fontSize") || 12) / 6);
       var start:Point;
       var end:Point;
       var rect:Rectangle;
+      var parent:Sprite;
       
       while(bounds.length > 0)
       {
         rect = bounds.pop();
+        parent = spriteMap[rect];
         
         start = new Point(rect.x, rect.y + rect.height - underlineDelta);
         end = new Point(rect.x + rect.width, rect.y + rect.height - underlineDelta);

@@ -51,20 +51,6 @@ package mx.tinytlf
       _container.container = this;
     }
     
-    /*private var _data:Object;
-       public function get data():Object
-       {
-       return _data;
-       }
-    
-       public function set data(value:Object):void
-       {
-       if(value === _data)
-       return;
-    
-       _data = value;
-     }*/
-    
     private var _engine:ITextEngine;
     
     public function get engine():ITextEngine

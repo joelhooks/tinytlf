@@ -47,7 +47,7 @@ package org.tinytlf.interaction
       _element = element;
       _line = line;
       _mirrorRegion = mirrorRegion;
-      _container = engine.getContainerForLine(_line);
+      _container = engine.layout.getContainerForLine(line);
       _uiLine = uiTextLine;
     }
     

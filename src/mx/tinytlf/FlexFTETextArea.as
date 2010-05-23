@@ -72,7 +72,7 @@ package mx.tinytlf
       if(!_engine)
       {
         _engine = new FlexTextEngine(stage);
-        _engine.addContainer(container);
+        _engine.layout.addContainer(container);
       }
       
       return _engine;

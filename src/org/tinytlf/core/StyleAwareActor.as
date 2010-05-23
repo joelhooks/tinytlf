@@ -8,9 +8,21 @@ package org.tinytlf.core
   
   public class StyleAwareActor extends Proxy implements IStyleAware
   {
-    public function StyleAwareActor(styleName:String = "")
+    public function StyleAwareActor(styleObject:Object = null)
     {
-      this.styleName = styleName;
+      if(!styleObject)
+        return;
+      
+      if(styleObject is String)
+        styleName = String(styleObject);
+      else
+        for(var prop:String in styleObject)
+          this[prop] = styleObject[prop];
+    }
+    
+    public function toString():String
+    {
+      return styleName;
     }
     
     private var _styleName:String = "";
@@ -47,12 +59,21 @@ package org.tinytlf.core
           this[s] = newValue[s];
     }
     
+    override flash_proxy function callProperty(name:*, ...parameters):*
+    {
+      if(name in this && this[name] is Function)
+        return (this[name] as Function).apply(null, parameters);
+      
+      if(name == 'toString')
+        return styleName;
+    }
+    
     override flash_proxy function setProperty(name:*, value:*):void
     {
-      if(name in this)
+      if(name in propertiesMap)
         this[name] = value;
-      
-      setStyle(name, value);
+      else
+        setStyle(name, value);
     }
     
     override flash_proxy function getProperty(name:*):*
@@ -67,6 +88,35 @@ package org.tinytlf.core
     {
       return propertiesMap ? name in propertiesMap : false;
     }
+    
+    protected var names:Array = [];
+    
+    override flash_proxy function nextNameIndex(index:int):int
+    {
+      if(index == 0)
+      {
+        names.length = 0;
+        var prop:String;
+        for(prop in propertiesMap)
+          names.push(prop);
+        for(prop in styles)
+          names.push(prop);
+      }
+      
+      return names[index];
+    }
+    
+    override flash_proxy function nextName(index:int):String
+    {
+      return names[index - 1];
+    }
+    
+    override flash_proxy function nextValue(index:int):*
+    {
+      return this[names[index]];
+    }
+    
+    generatePropertiesMap(new StyleAwareActor());
     
     private static var propertiesMap:Object;
     

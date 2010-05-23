@@ -1,6 +1,7 @@
 package org.tinytlf.layout
 {
   import flash.text.engine.TextBlock;
+  import flash.text.engine.TextLine;
   
   import org.tinytlf.ITextEngine;
 
@@ -9,6 +10,13 @@ package org.tinytlf.layout
     function get engine():ITextEngine;
     function set engine(textEngine:ITextEngine):void;
     
-    function render(blocks:Vector.<TextBlock>, containers:Vector.<ITextContainer>):void;
+    function get containers():Vector.<ITextContainer>;
+    
+    function addContainer(container:ITextContainer):void;
+    function removeContainer(container:ITextContainer):void;
+    
+    function getContainerForLine(line:TextLine):ITextContainer;
+    
+    function render(blocks:Vector.<TextBlock>):void;
   }
 }

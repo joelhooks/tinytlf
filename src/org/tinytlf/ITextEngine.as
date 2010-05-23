@@ -26,11 +26,6 @@ package org.tinytlf
     function get styler():ITextStyler;
     function set styler(textStyler:ITextStyler):void;
     
-    function addContainer(container:ITextContainer):void;
-    function removeContainer(container:ITextContainer):void;
-    
-    function getContainerForLine(line:TextLine):ITextContainer;
-    
     function prerender(...args):void;
     
     function invalidate():void;

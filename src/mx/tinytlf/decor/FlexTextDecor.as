@@ -11,6 +11,14 @@ package mx.tinytlf.decor
       super();
     }
     
+    override public function decorate(element:*, styleObj:Object, layer:int=0, container:ITextContainer=null):void
+    {
+      if(styleObj is String)
+        styleObj = new FlexStyleProxy(String(styleObj));
+      
+      super.decorate(element, styleObj, layer, container);
+    }
+    
     override public function getDecoration(styleProp:String, container:ITextContainer = null):ITextDecoration
     {
       var dec:ITextDecoration = super.getDecoration(styleProp, container);

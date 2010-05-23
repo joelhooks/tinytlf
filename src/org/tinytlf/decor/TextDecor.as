@@ -133,39 +133,33 @@ package org.tinytlf.decor
      * more than 'first-come, first-served.'
      *
      */
-    public function decorate(element:*, container:ITextContainer = null, decorationProp:String = null, value:* = null, layer:int = 0, styleObj:Object = null):void
+    public function decorate(element:*, styleObj:Object, layer:int = 0, container:ITextContainer = null):void
     {
-      if(!hasDecoration(decorationProp) && !styleObj)
+      if(!element || !styleObj)
         return;
       
-      var styleProp:String;
       
       //Resolve the layer business first
       var theLayer:Object = resolveLayer(layer);
       if(!(element in theLayer))
         theLayer[element] = {};
       
-      // Check to see if there is a decoration mapped for this property. 'decorationProp'
-      // can be null, so we wouldn't have something mapped in that case.
-      var decoration:ITextDecoration = getDecoration(decorationProp, container);
-      if(decoration)
+      //Don't handle parsing a styleName for now, do that in a subclass.
+      if(styleObj is String)
+        return;
+      
+      var decoration:ITextDecoration;
+      
+      var styleProp:String;
+      for(styleProp in styleObj)
       {
-        if(value)
-          decoration.setStyle(decorationProp, value);
-        
-        theLayer[element][decorationProp] = decoration;
-        
-        //Try to apply styles to the decoration via key/value pairs
-        if(styleObj is String)
-          decoration.styleName = String(styleObj);
-        else if(styleObj)
+        if(hasDecoration(styleProp))
+        {
+          decoration = ITextDecoration(theLayer[element][styleProp] = getDecoration(styleProp, container));
           for(styleProp in styleObj)
-            decoration[styleProp] = styleObj[styleProp];
+            decoration.setStyle(styleProp, styleObj[styleProp]);
+        }
       }
-      else if(styleObj)
-        for(styleProp in styleObj)
-          if(hasDecoration(styleProp))
-            ITextDecoration(theLayer[element][styleProp] = getDecoration(styleProp, container)).styleProxy = styleObj;
       
       engine.invalidateDecorations();
     }

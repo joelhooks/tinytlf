@@ -105,7 +105,7 @@ package org.tinytlf.decor
           var container:ITextContainer;
           while(lines.length)
           {
-            container = engine.getContainerForLine(lines.shift());
+            container = engine.layout.getContainerForLine(lines.shift());
             if(containers.indexOf(container) ==  -1)
               containers.push(container);
           }

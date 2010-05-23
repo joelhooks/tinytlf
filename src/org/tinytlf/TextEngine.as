@@ -6,11 +6,8 @@ package org.tinytlf
   import flash.events.Event;
   import flash.events.EventDispatcher;
   import flash.text.engine.TextBlock;
-  import flash.text.engine.TextLine;
   import flash.utils.setTimeout;
   
-  import org.tinytlf.model.factory.AbstractBlockFactory;
-  import org.tinytlf.model.factory.IBlockFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.decor.TextDecor;
   import org.tinytlf.interaction.ITextInteractor;
@@ -18,6 +15,8 @@ package org.tinytlf
   import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.layout.TextLayoutBase;
+  import org.tinytlf.model.factory.AbstractBlockFactory;
+  import org.tinytlf.model.factory.IBlockFactory;
   import org.tinytlf.styles.ITextStyler;
   import org.tinytlf.styles.TextStyler;
   
@@ -125,26 +124,6 @@ package org.tinytlf
       _styler = textStyler;
     }
     
-    private var containers:Vector.<ITextContainer> = new Vector.<ITextContainer>();
-    public function addContainer(container:ITextContainer):void
-    {
-      if(containers.indexOf(container) != -1)
-        return;
-      
-      containers.push(container);
-      container.engine = this;
-    }
-    
-    public function removeContainer(container:ITextContainer):void
-    {
-      var i:int = containers.indexOf(container);
-      if(i == -1)
-        return;
-      
-      containers.splice(i, 1);
-      container.engine = null;
-    }
-    
     protected var blocks:Vector.<TextBlock>;
     
     public function prerender(... args):void
@@ -222,11 +201,12 @@ package org.tinytlf
     
     public function renderLines():void
     {
-      layout.render(blockFactory.blocks, containers);
+      layout.render(blockFactory.blocks);
     }
     
     public function renderDecorations():void
     {
+      var containers:Vector.<ITextContainer> = layout.containers;
       var i:int = 0;
       var n:int = containers.length;
       var doc:DisplayObjectContainer;
@@ -239,19 +219,6 @@ package org.tinytlf
       }
       
       decor.render();
-    }
-    
-    public function getContainerForLine(line:TextLine):ITextContainer
-    {
-      var n:int = containers.length;
-      
-      for(var i:int = 0; i < n; i++)
-      {
-        if(containers[i].hasLine(line))
-          return containers[i];
-      }
-      
-      return null;
     }
   }
 }

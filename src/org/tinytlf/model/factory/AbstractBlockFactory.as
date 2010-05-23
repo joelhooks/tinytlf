@@ -8,7 +8,7 @@ package org.tinytlf.model.factory
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.model.adapter.IModelAdapter;
-  import org.tinytlf.model.adapter.ContentElementAdapterBase;
+  import org.tinytlf.model.adapter.ContentElementAdapter;
   
   public class AbstractBlockFactory implements IBlockFactory
   {
@@ -102,7 +102,7 @@ package org.tinytlf.model.factory
       //Return the generic adapter if we haven't mapped any.
       if(!(element in adapterMap))
       {
-        adapter = new ContentElementAdapterBase();
+        adapter = new ContentElementAdapter();
         IModelAdapter(adapter).engine = engine;
         return adapter;
       }

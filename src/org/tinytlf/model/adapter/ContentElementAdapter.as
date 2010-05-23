@@ -8,9 +8,9 @@ package org.tinytlf.model.adapter
   
   import org.tinytlf.ITextEngine;
   
-  public class ContentElementAdapterBase implements IModelAdapter
+  public class ContentElementAdapter implements IModelAdapter
   {
-    public function ContentElementAdapterBase()
+    public function ContentElementAdapter()
     {
     }
     
@@ -34,7 +34,7 @@ package org.tinytlf.model.adapter
       //Check to see if there's a styleName for this element
       var style:* = engine.styler.getMappedStyle(name);
       if(style)
-        engine.decor.decorate(element, null, null, null, 0, style);
+        engine.decor.decorate(element, style);
       
       return element;
     }

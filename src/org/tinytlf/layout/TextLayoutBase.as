@@ -12,6 +12,7 @@ package org.tinytlf.layout
     }
     
     protected var _engine:ITextEngine;
+    
     public function get engine():ITextEngine
     {
       return _engine;
@@ -25,27 +26,27 @@ package org.tinytlf.layout
       _engine = textEngine;
     }
     
-    public function render(blocks:Vector.<TextBlock>, containers:Vector.<ITextContainer>):void
+    public function render(blocks:Vector.<TextBlock>):void
     {
-      if(!containers)
-        throwNullContainerError();
+      if(!_containers)
+        throw new Error('ITextLayout needs containers to render on.');
       
       var blockIndex:int = 0;
       var containerIndex:int = 0;
       
       var block:TextBlock = blocks[0];
-      var container:ITextContainer = containers[0];
+      var container:ITextContainer = _containers[0];
       var line:TextLine;
       
       while(blockIndex < blocks.length)
       {
         block = blocks[blockIndex];
-        container = containers[containerIndex];
+        container = _containers[containerIndex];
         
         line = container.layout(block, line);
         
         if(line)
-          container = containers[++containerIndex];
+          container = _containers[++containerIndex];
         else if(++blockIndex < blocks.length)
           block = blocks[blockIndex];
         else
@@ -53,9 +54,43 @@ package org.tinytlf.layout
       }
     }
     
-    private function throwNullContainerError():void
+    protected var _containers:Vector.<ITextContainer> = new Vector.<ITextContainer>();
+    
+    public function get containers():Vector.<ITextContainer>
     {
-      throw new Error('ITextLayout needs containers to render on.');
+      return _containers.concat();
+    }
+    
+    public function addContainer(container:ITextContainer):void
+    {
+      if(_containers.indexOf(container) != -1)
+        return;
+      
+      _containers.push(container);
+      container.engine = engine;
+    }
+    
+    public function removeContainer(container:ITextContainer):void
+    {
+      var i:int = _containers.indexOf(container);
+      if(i == -1)
+        return;
+      
+      _containers.splice(i, 1);
+      container.engine = null;
+    }
+    
+    public function getContainerForLine(line:TextLine):ITextContainer
+    {
+      var n:int = _containers.length;
+      
+      for(var i:int = 0; i < n; i++)
+      {
+        if(_containers[i].hasLine(line))
+          return _containers[i];
+      }
+      
+      return null;
     }
   }
 }

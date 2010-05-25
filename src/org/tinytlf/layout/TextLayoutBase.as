@@ -2,6 +2,7 @@ package org.tinytlf.layout
 {
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
+  import flash.utils.Dictionary;
   
   import org.tinytlf.ITextEngine;
   
@@ -91,6 +92,26 @@ package org.tinytlf.layout
       }
       
       return null;
+    }
+    
+    protected var propertiesMap:Dictionary = new Dictionary(true);
+    
+    public function getLayoutProperties(block:TextBlock):LayoutProperties
+    {
+      return propertiesMap[block];
+    }
+    
+    public function mapLayoutProperties(block:TextBlock, properties:LayoutProperties):void
+    {
+      propertiesMap[block] = properties;
+    }
+    
+    public function unMapLayoutProperties(block:TextBlock):Boolean
+    {
+      if(!(block in propertiesMap))
+        return false;
+      
+      return delete propertiesMap[block];
     }
   }
 }

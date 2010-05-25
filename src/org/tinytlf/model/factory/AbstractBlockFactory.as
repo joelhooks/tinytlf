@@ -1,25 +1,65 @@
 package org.tinytlf.model.factory
 {
+  import org.tinytlf.ITextEngine;
+  import org.tinytlf.model.adapter.ContentElementAdapter;
+  import org.tinytlf.model.adapter.IContentElementAdapter;
+  import org.tinytlf.model.adapter.ITextBlockAdapter;
+  import org.tinytlf.model.adapter.TextBlockAdapter;
+  
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;
   import flash.utils.Dictionary;
   
   import mx.core.IFactory;
   
-  import org.tinytlf.ITextEngine;
-  import org.tinytlf.model.adapter.IModelAdapter;
-  import org.tinytlf.model.adapter.ContentElementAdapter;
-  
   public class AbstractBlockFactory implements IBlockFactory
   {
-    public static const WHITE_SPACE:String  = "whitespace";
+    public static const WHITE_SPACE:String = "whitespace";
     public static const GENERIC_TEXT:String = "text";
     
     public function AbstractBlockFactory()
     {
     }
     
+    private var _blockAdapter:ITextBlockAdapter;
+    
+    public function get blockAdapter():ITextBlockAdapter
+    {
+      if(!_blockAdapter)
+      {
+        _blockAdapter = new TextBlockAdapter();
+        _blockAdapter.engine = engine;
+      }
+      
+      return _blockAdapter;
+    }
+    
+    public function set blockAdapter(adapter:ITextBlockAdapter):void
+    {
+      if(adapter === _blockAdapter)
+        return;
+      
+      _blockAdapter = adapter;
+      _blockAdapter.engine = engine;
+    }
+    
+    private var _data:*;
+    
+    public function get data():Object
+    {
+      return _data;
+    }
+    
+    public function set data(value:Object):void
+    {
+      if(value == _data)
+        return;
+      
+      _data = value;
+    }
+    
     private var _engine:ITextEngine;
+    
     public function get engine():ITextEngine
     {
       return _engine;
@@ -34,32 +74,20 @@ package org.tinytlf.model.factory
     }
     
     protected var _blocks:Vector.<TextBlock>;
+    
     public function get blocks():Vector.<TextBlock>
     {
       return _blocks.concat();
     }
     
     protected var _elements:Vector.<ContentElement>;
+    
     public function get elements():Vector.<ContentElement>
     {
       return _elements.concat();
     }
     
-    private var _data:*;
-    public function get data():Object
-    {
-      return _data;
-    }
-    
-    public function set data(value:Object):void
-    {
-      if(value == _data)
-        return;
-      
-      _data = value;
-    }
-    
-    public function createBlocks(...args):Vector.<TextBlock>
+    public function createBlocks(... args):Vector.<TextBlock>
     {
       if(_blocks != null)
       {
@@ -78,59 +106,54 @@ package org.tinytlf.model.factory
       var elements:Vector.<ContentElement> = createElements.apply(null, args);
       
       while(elements.length > 0)
-        _blocks.push(executeBlockHooks(new TextBlock(elements.shift())));
-        
+        _blocks.push(blockAdapter.execute(elements.shift()));
+      
       return _blocks;
     }
     
-    public function createElements(...args):Vector.<ContentElement>
+    public function createElements(... args):Vector.<ContentElement>
     {
       return _elements = new Vector.<ContentElement>();
     }
     
-    protected function executeBlockHooks(block:TextBlock):TextBlock
-    {
-      return block;
-    }
+    protected var elementAdapterMap:Dictionary = new Dictionary(false);
     
-    protected var adapterMap:Dictionary = new Dictionary(false);
-    
-    public function getModelAdapter(element:*):IModelAdapter
+    public function getElementAdapter(element:*):IContentElementAdapter
     {
       var adapter:*;
       
       //Return the generic adapter if we haven't mapped any.
-      if(!(element in adapterMap))
+      if(!(element in elementAdapterMap))
       {
         adapter = new ContentElementAdapter();
-        IModelAdapter(adapter).engine = engine;
+        IContentElementAdapter(adapter).engine = engine;
         return adapter;
       }
       
-      adapter = adapterMap[element];
+      adapter = elementAdapterMap[element];
       if(adapter is IFactory)
-        adapter = IModelAdapter(IFactory(adapter).newInstance());
+        adapter = IContentElementAdapter(IFactory(adapter).newInstance());
       if(adapter is Class)
-        adapter = IModelAdapter(new adapter());
+        adapter = IContentElementAdapter(new (adapter as Class)());
       if(adapter is Function)
-        adapter = IModelAdapter((adapter as Function)());
+        adapter = IContentElementAdapter((adapter as Function)());
       
-      IModelAdapter(adapter).engine = engine;
+      IContentElementAdapter(adapter).engine = engine;
       
-      return IModelAdapter(adapter);
+      return IContentElementAdapter(adapter);
     }
     
-    public function mapModelAdapter(element:*, adapterClassOrInstance:Object):void
+    public function mapElementAdapter(element:*, adapterClassOrInstance:Object):void
     {
-      adapterMap[element] = adapterClassOrInstance;
+      elementAdapterMap[element] = adapterClassOrInstance;
     }
     
-    public function unMapModelAdapter(element:*):Boolean
+    public function unMapElementAdapter(element:*):Boolean
     {
-      if(!(element in adapterMap))
+      if(!(element in elementAdapterMap))
         return false;
       
-      return delete adapterMap[element];
+      return delete elementAdapterMap[element];
     }
   }
 }

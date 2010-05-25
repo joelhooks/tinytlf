@@ -17,11 +17,14 @@ package org.tinytlf.layout
     function get shapes():DisplayObjectContainer;
     function set shapes(shapesContainer:DisplayObjectContainer):void;
     
-    function get width():Number;
-    function set width(value:Number):void;
+    function get allowedWidth():Number;
+    function set allowedWidth(value:Number):void;
     
-    function get height():Number;
-    function set height(value:Number):void;
+    function get allowedHeight():Number;
+    function set allowedHeight(value:Number):void;
+    
+    function get measuredWidth():Number;
+    function get measuredHeight():Number;
     
     function layout(block:TextBlock, line:TextLine):TextLine;
     

@@ -8,7 +8,7 @@ package org.tinytlf.model.adapter
   
   import org.tinytlf.ITextEngine;
   
-  public class ContentElementAdapter implements IModelAdapter
+  public class ContentElementAdapter implements IContentElementAdapter
   {
     public function ContentElementAdapter()
     {

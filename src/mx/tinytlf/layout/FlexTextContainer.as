@@ -2,6 +2,7 @@ package mx.tinytlf.layout
 {
   import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
+  import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
   
   import mx.tinytlf.UITextLine;

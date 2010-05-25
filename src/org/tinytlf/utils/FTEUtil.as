@@ -55,14 +55,16 @@ package org.tinytlf.utils
       {
         while(!isNaN(atomCode) && atomIndex > 0 && atomCode != Keyboard.SPACE && line.getAtomGraphic(adjustedAtomIndex) == null)
         {
-          atomCode = element.rawText.charCodeAt(line.textBlockBeginIndex + (--atomIndex));
+          atomCode = element.rawText.charCodeAt(--adjustedAtomIndex);
+          atomIndex--;
         }
       }
       else
       {
         while(!isNaN(atomCode) && atomIndex < element.rawText.length && atomCode != Keyboard.SPACE && line.getAtomGraphic(adjustedAtomIndex) == null)
         {
-          atomCode = element.rawText.charCodeAt(line.textBlockBeginIndex + (++atomIndex));
+          atomCode = element.rawText.charCodeAt(++adjustedAtomIndex);
+          atomIndex++;
         }
       }
       

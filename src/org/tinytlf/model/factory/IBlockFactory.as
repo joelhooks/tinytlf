@@ -4,7 +4,8 @@ package org.tinytlf.model.factory
   import flash.text.engine.TextBlock;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.model.adapter.IModelAdapter;
+  import org.tinytlf.model.adapter.IContentElementAdapter;
+  import org.tinytlf.model.adapter.ITextBlockAdapter;
   
   /**
   * Ultimately the job of BlockFactory is to generate TextBlocks for us. It just
@@ -13,11 +14,14 @@ package org.tinytlf.model.factory
   */
   public interface IBlockFactory
   {
-    function get engine():ITextEngine;
-    function set engine(textEngine:ITextEngine):void;
+    function get blockAdapter():ITextBlockAdapter;
+    function set blockAdapter(adapter:ITextBlockAdapter):void;
     
     function get data():Object;
     function set data(value:Object):void;
+    
+    function get engine():ITextEngine;
+    function set engine(textEngine:ITextEngine):void;
     
     function get blocks():Vector.<TextBlock>;
     function get elements():Vector.<ContentElement>;
@@ -25,8 +29,8 @@ package org.tinytlf.model.factory
     function createBlocks(...args):Vector.<TextBlock>;
     function createElements(...args):Vector.<ContentElement>;
     
-    function getModelAdapter(element:*):IModelAdapter;
-    function mapModelAdapter(element:*, adapterClassOrInstance:Object):void;
-    function unMapModelAdapter(element:*):Boolean;
+    function getElementAdapter(element:*):IContentElementAdapter;
+    function mapElementAdapter(element:*, adapterClassOrInstance:Object):void;
+    function unMapElementAdapter(element:*):Boolean;
   }
 }

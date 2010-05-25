@@ -1,5 +1,8 @@
 package org.tinytlf.layout
 {
+  import org.tinytlf.ITextEngine;
+  import org.tinytlf.layout.description.TextAlign;
+  
   import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
   import flash.display.Sprite;
@@ -8,17 +11,14 @@ package org.tinytlf.layout
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
   
-  import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.description.TextAlign;
-  
   public class TextContainerBase implements ITextContainer
   {
-    protected var _width:Number = NaN;
-    protected var _height:Number = NaN;
-    
-    public function TextContainerBase(container:DisplayObjectContainer, width:Number = NaN, height:Number = NaN)
+    public function TextContainerBase(container:DisplayObjectContainer, allowedWidth:Number = NaN, allowedHeight:Number = NaN)
     {
       this.container = container;
+      
+      _allowedWidth = allowedWidth;
+      _allowedHeight = allowedHeight;
     }
     
     private var _container:DisplayObjectContainer;
@@ -38,6 +38,9 @@ package org.tinytlf.layout
         container.width = 100;
       if(container.height == 0)
         container.height = 100;
+      
+      _allowedWidth = container.width;
+      _allowedHeight = container.height;
       
       shapes = new Sprite();
       
@@ -86,24 +89,42 @@ package org.tinytlf.layout
         shapes.addChild(children.shift());
     }
     
-    public function get width():Number
+    protected var _allowedWidth:Number = NaN;
+    
+    public function get allowedWidth():Number
     {
-      return _width || container.width;
+      return _allowedWidth;
     }
     
-    public function set width(value:Number):void
+    public function set allowedWidth(value:Number):void
     {
-      _width = value;
+      _allowedWidth = value;
     }
     
-    public function get height():Number
+    protected var _allowedHeight:Number = NaN;
+    
+    public function get allowedHeight():Number
     {
-      return _height || container.height;
+      return _allowedHeight;
     }
     
-    public function set height(value:Number):void
+    public function set allowedHeight(value:Number):void
     {
-      _height = value;
+      _allowedHeight = value;
+    }
+    
+    protected var width:Number = 0;
+    
+    public function get measuredWidth():Number
+    {
+      return width;
+    }
+    
+    protected var height:Number = 0;
+    
+    public function get measuredHeight():Number
+    {
+      return height;
     }
     
     public function hasLine(line:TextLine):Boolean
@@ -121,36 +142,34 @@ package org.tinytlf.layout
       return false;
     }
     
-    protected var calcHeight:Number = 0;
     public function layout(block:TextBlock, line:TextLine):TextLine
     {
-      line = createLine(block, line);
       var doc:DisplayObjectContainer;
-      
-      var props:LayoutProperties = getLayoutProperties(block) || new LayoutProperties();
+      var props:LayoutProperties = getLayoutProperties(block);
       
       if(props.textAlign == TextAlign.JUSTIFY)
         block.textJustifier = new SpaceJustifier("en", LineJustification.ALL_BUT_LAST, true);
       
+      line = createLine(block, line);
+      
       while(line)
       {
+        width = allowedWidth;
+        
         line.userData = engine;
         
         doc = hookLine(line);
         
-        doc.y = calcHeight;
+        doc.y = height;
         
         container.addChild(doc);
         
-        calcHeight += doc.height + props.lineHeight;
+        height += doc.height + props.lineHeight;
+        
+        if(!isNaN(allowedHeight) && measuredHeight > allowedHeight)
+          return line;
         
         line = createLine(block, line);
-        
-        if(!isNaN(_height) && calcHeight > height)
-        {
-          calcHeight = 0;
-          return line;
-        }
       }
       
       return line;
@@ -158,9 +177,9 @@ package org.tinytlf.layout
     
     protected function createLine(block:TextBlock, line:TextLine = null):TextLine
     {
-      var props:LayoutProperties = getLayoutProperties(block) || new LayoutProperties();
+      var props:LayoutProperties = getLayoutProperties(block);
       
-      var w:Number = width || props.width;
+      var w:Number = allowedWidth || props.width;
       var x:Number = 0;
       
       if(line == null)
@@ -203,7 +222,7 @@ package org.tinytlf.layout
     
     protected function getLayoutProperties(block:TextBlock):LayoutProperties
     {
-      return engine.styler.getMappedStyle(block) as LayoutProperties;
+      return engine.layout.getLayoutProperties(block) || new LayoutProperties();
     }
   }
 }

@@ -2,8 +2,6 @@ package mx.tinytlf
 {
   import flash.display.DisplayObject;
   import flash.events.Event;
-  import flash.text.engine.ContentElement;
-  import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
   
   import mx.containers.Canvas;
@@ -18,7 +16,6 @@ package mx.tinytlf
   import org.tinytlf.decor.decorations.StrikeThroughDecoration;
   import org.tinytlf.decor.decorations.UnderlineDecoration;
   import org.tinytlf.layout.ITextContainer;
-  import org.tinytlf.model.factory.IBlockFactory;
   
   use namespace mx_internal;
   
@@ -88,15 +85,6 @@ package mx.tinytlf
     
     /**
      * @private
-     * Called just before the Block is created in createBlocks.
-     */
-    protected function hookBlock(block:TextBlock):TextBlock
-    {
-      return block;
-    }
-    
-    /**
-     * @private
      * Called just before a line is added to the display list.
      */
     protected function hookLine(line:DisplayObject):DisplayObject
@@ -162,7 +150,7 @@ package mx.tinytlf
         w -= (verticalScrollPolicy == ScrollPolicy.ON || (verticalScrollPolicy == ScrollPolicy.AUTO && verticalScrollBar)) ?
           verticalScrollBar.getExplicitOrMeasuredWidth() : 0;
         
-        container.width = w;
+        container.allowedWidth = w;
         
         engine.blockFactory.data = data;
         

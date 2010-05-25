@@ -5,7 +5,7 @@ package org.tinytlf.model.factory.xml
   import flash.text.engine.GroupElement;
   import flash.text.engine.TextElement;
   
-  import org.tinytlf.model.adapter.IModelAdapter;
+  import org.tinytlf.model.adapter.IContentElementAdapter;
   import org.tinytlf.model.factory.AbstractBlockFactory;
   
   public class XMLBlockFactory extends AbstractBlockFactory
@@ -22,7 +22,7 @@ package org.tinytlf.model.factory.xml
       if(!(data is String) && !(data is XML))
         return elements;
       
-      elements.push(getElementForNode(new XML(data)));
+      elements.push(getElementForNode(XML(data)));
       
       return elements;
     }
@@ -32,22 +32,20 @@ package org.tinytlf.model.factory.xml
       if(!node)
         return null;
       
-      var adapter:IModelAdapter = getModelAdapter(parentName);
+      var adapter:IContentElementAdapter = getElementAdapter(parentName);
       var content:ContentElement;
       
-      if(node.descendants().length() > 1)
+      if(node..*.length() > 1)
       {
         var elements:Vector.<ContentElement> = new Vector.<ContentElement>();
-        for each(var child:XML in node.children())
-        {
+        for each(var child:XML in node.*)
           elements.push(getElementForNode(child, String(node.localName())));
-        }
         
         content = adapter.execute(elements, parentName, node.attributes());
       }
-      else if(node.descendants().length() == 1)
+      else if(node..*.length() == 1 || node.nodeKind() != 'text')
       {
-        adapter = getModelAdapter(node.localName());
+        adapter = getElementAdapter(node.localName());
         content = adapter.execute(node.text().toString(), node.localName(), node.attributes());
       }
       else

@@ -1,7 +1,7 @@
-package org.tinytlf.layout
+package org.tinytlf.layout.view
 {
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.description.TextAlign;
+  import org.tinytlf.layout.view.description.TextAlign;
   
   import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
@@ -10,6 +10,7 @@ package org.tinytlf.layout
   import flash.text.engine.SpaceJustifier;
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
+  import org.tinytlf.layout.LayoutProperties;
   
   public class TextContainerBase implements ITextContainer
   {

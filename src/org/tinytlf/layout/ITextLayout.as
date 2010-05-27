@@ -4,6 +4,7 @@ package org.tinytlf.layout
   import flash.text.engine.TextLine;
   
   import org.tinytlf.ITextEngine;
+  import org.tinytlf.layout.view.ITextContainer;
 
   public interface ITextLayout
   {

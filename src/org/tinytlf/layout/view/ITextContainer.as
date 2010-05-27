@@ -1,4 +1,4 @@
-package org.tinytlf.layout
+package org.tinytlf.layout.view
 {
   import flash.display.DisplayObjectContainer;
   import flash.text.engine.TextBlock;

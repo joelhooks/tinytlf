@@ -1,4 +1,4 @@
-package org.tinytlf.layout.description
+package org.tinytlf.layout.view.description
 {
   public class TextFloat extends Enum
   {

@@ -15,7 +15,7 @@ package mx.tinytlf
   import org.tinytlf.decor.decorations.BackgroundColorDecoration;
   import org.tinytlf.decor.decorations.StrikeThroughDecoration;
   import org.tinytlf.decor.decorations.UnderlineDecoration;
-  import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.layout.view.ITextContainer;
   
   use namespace mx_internal;
   

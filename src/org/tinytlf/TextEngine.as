@@ -12,7 +12,7 @@ package org.tinytlf
   import org.tinytlf.decor.TextDecor;
   import org.tinytlf.interaction.ITextInteractor;
   import org.tinytlf.interaction.TextInteractorBase;
-  import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.layout.view.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.layout.TextLayoutBase;
   import org.tinytlf.layout.model.factory.AbstractBlockFactory;

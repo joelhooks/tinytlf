@@ -5,7 +5,7 @@ package org.tinytlf
   import org.tinytlf.layout.model.factory.IBlockFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
-  import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.layout.view.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.styles.ITextStyler;
 

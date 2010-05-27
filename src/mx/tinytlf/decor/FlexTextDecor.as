@@ -2,7 +2,7 @@ package mx.tinytlf.decor
 {
   import org.tinytlf.decor.ITextDecoration;
   import org.tinytlf.decor.TextDecor;
-  import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.layout.view.ITextContainer;
   
   public class FlexTextDecor extends TextDecor
   {

@@ -1,15 +1,14 @@
-package org.tinytlf.model.adapter
+package org.tinytlf.layout.model.adapter
 {
   import flash.text.engine.ContentElement;
-  import flash.text.engine.TextBlock;
   
   import org.tinytlf.ITextEngine;
-
-  public interface ITextBlockAdapter
+  
+  public interface IContentElementAdapter
   {
     function get engine():ITextEngine;
     function set engine(textEngine:ITextEngine):void;
     
-    function execute(content:ContentElement, ...context):TextBlock;
+    function execute(data:Object, ...context:Array):ContentElement;
   }
 }

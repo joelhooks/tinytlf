@@ -15,8 +15,8 @@ package org.tinytlf
   import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.layout.TextLayoutBase;
-  import org.tinytlf.model.factory.AbstractBlockFactory;
-  import org.tinytlf.model.factory.IBlockFactory;
+  import org.tinytlf.layout.model.factory.AbstractBlockFactory;
+  import org.tinytlf.layout.model.factory.IBlockFactory;
   import org.tinytlf.styles.ITextStyler;
   import org.tinytlf.styles.TextStyler;
   

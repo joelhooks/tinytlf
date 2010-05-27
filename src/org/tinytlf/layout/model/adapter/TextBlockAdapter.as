@@ -1,4 +1,4 @@
-package org.tinytlf.model.adapter
+package org.tinytlf.layout.model.adapter
 {
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;

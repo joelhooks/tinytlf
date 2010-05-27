@@ -1,10 +1,10 @@
-package org.tinytlf.model.factory
+package org.tinytlf.layout.model.factory
 {
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.model.adapter.ContentElementAdapter;
-  import org.tinytlf.model.adapter.IContentElementAdapter;
-  import org.tinytlf.model.adapter.ITextBlockAdapter;
-  import org.tinytlf.model.adapter.TextBlockAdapter;
+  import org.tinytlf.layout.model.adapter.ContentElementAdapter;
+  import org.tinytlf.layout.model.adapter.IContentElementAdapter;
+  import org.tinytlf.layout.model.adapter.ITextBlockAdapter;
+  import org.tinytlf.layout.model.adapter.TextBlockAdapter;
   
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;

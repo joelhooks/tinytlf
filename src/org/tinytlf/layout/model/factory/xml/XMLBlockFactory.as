@@ -3,9 +3,9 @@ package org.tinytlf.layout.model.factory.xml
   import flash.text.engine.ContentElement;
   
   import org.tinytlf.layout.model.adapter.IContentElementAdapter;
-  import org.tinytlf.layout.model.factory.AbstractBlockFactory;
+  import org.tinytlf.layout.model.factory.AbstractLayoutModelFactory;
   
-  public class XMLBlockFactory extends AbstractBlockFactory
+  public class XMLBlockFactory extends AbstractLayoutModelFactory
   {
     public function XMLBlockFactory()
     {

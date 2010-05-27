@@ -12,12 +12,12 @@ package org.tinytlf.layout.model.factory
   
   import mx.core.IFactory;
   
-  public class AbstractBlockFactory implements IBlockFactory
+  public class AbstractLayoutModelFactory implements ILayoutModelFactory
   {
     public static const WHITE_SPACE:String = "whitespace";
     public static const GENERIC_TEXT:String = "text";
     
-    public function AbstractBlockFactory()
+    public function AbstractLayoutModelFactory()
     {
     }
     

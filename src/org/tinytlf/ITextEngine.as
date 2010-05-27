@@ -2,7 +2,7 @@ package org.tinytlf
 {
   import flash.text.engine.TextLine;
   
-  import org.tinytlf.layout.model.factory.IBlockFactory;
+  import org.tinytlf.layout.model.factory.ILayoutModelFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
   import org.tinytlf.layout.view.ITextContainer;
@@ -11,8 +11,8 @@ package org.tinytlf
 
   public interface ITextEngine
   {
-    function get blockFactory():IBlockFactory;
-    function set blockFactory(value:IBlockFactory):void;
+    function get blockFactory():ILayoutModelFactory;
+    function set blockFactory(value:ILayoutModelFactory):void;
     
     function get decor():ITextDecor;
     function set decor(textDecor:ITextDecor):void;

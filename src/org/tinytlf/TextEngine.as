@@ -15,8 +15,8 @@ package org.tinytlf
   import org.tinytlf.layout.view.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.layout.TextLayoutBase;
-  import org.tinytlf.layout.model.factory.AbstractBlockFactory;
-  import org.tinytlf.layout.model.factory.IBlockFactory;
+  import org.tinytlf.layout.model.factory.AbstractLayoutModelFactory;
+  import org.tinytlf.layout.model.factory.ILayoutModelFactory;
   import org.tinytlf.styles.ITextStyler;
   import org.tinytlf.styles.TextStyler;
   
@@ -28,17 +28,17 @@ package org.tinytlf
       this.stage = stage;
     }
     
-    protected var _blockFactory:IBlockFactory;
+    protected var _blockFactory:ILayoutModelFactory;
     
-    public function get blockFactory():IBlockFactory
+    public function get blockFactory():ILayoutModelFactory
     {
       if(!_blockFactory)
-        _blockFactory = new AbstractBlockFactory();
+        _blockFactory = new AbstractLayoutModelFactory();
       
       return _blockFactory;
     }
     
-    public function set blockFactory(value:IBlockFactory):void
+    public function set blockFactory(value:ILayoutModelFactory):void
     {
       if(value === _blockFactory)
         return;

@@ -12,7 +12,7 @@ package org.tinytlf.layout.model.factory
   * so happens that generating TextBlocks requires the generation of 
   * ContentElements as well. Thus this is the main model actor in tinyTLF.
   */
-  public interface IBlockFactory
+  public interface ILayoutModelFactory
   {
     function get blockAdapter():ITextBlockAdapter;
     function set blockAdapter(adapter:ITextBlockAdapter):void;

@@ -1,9 +1,6 @@
 package org.tinytlf.model.factory.xml
 {
-  import flash.events.EventDispatcher;
   import flash.text.engine.ContentElement;
-  import flash.text.engine.GroupElement;
-  import flash.text.engine.TextElement;
   
   import org.tinytlf.model.adapter.IContentElementAdapter;
   import org.tinytlf.model.factory.AbstractBlockFactory;

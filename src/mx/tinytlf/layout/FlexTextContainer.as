@@ -24,11 +24,11 @@ package mx.tinytlf.layout
     override public function hasLine(line:TextLine):Boolean
     {
       var child:DisplayObject;
-      var n:int = container.numChildren;
+      var n:int = target.numChildren;
       
       for(var i:int = 0; i < n; i++)
       {
-        child = container.getChildAt(i);
+        child = target.getChildAt(i);
         
         if(child is UITextLine && DisplayObjectContainer(child).contains(line))
           return true;

@@ -45,7 +45,7 @@ package mx.tinytlf
         return;
       
       _container = textContainer;
-      _container.container = this;
+      _container.target = this;
     }
     
     override public function set data(value:Object):void

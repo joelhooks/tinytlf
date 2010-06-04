@@ -20,6 +20,6 @@ package org.tinytlf.decor
     
     function setup(...args):Vector.<Rectangle>
     
-    function draw(bounds:Vector.<Rectangle>):void;
+    function draw(bounds:Vector.<Rectangle>, layer:int = 0):void;
   }
 }

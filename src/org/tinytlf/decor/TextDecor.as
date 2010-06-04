@@ -33,18 +33,20 @@ package org.tinytlf.decor
     
     public function render():void
     {
-      var i:int = layers.length - 1;
+      var i:int = 0;
+      var n:int = layers.length;
       var layer:Dictionary;
       var element:*;
       var decorationProp:String;
       var decoration:ITextDecoration;
       
-      for(; i >= 0; i--)
+      for(; i < n; ++i)
       {
         layer = layers[i];
         for(element in layer)
           for each(decoration in layer[element])
-            decoration.draw(decoration.setup(element));
+            if(decoration)
+              decoration.draw(decoration.setup(element), i);
       }
     }
     
@@ -66,7 +68,7 @@ package org.tinytlf.decor
       engine.invalidateDecorations();
     }
     
-    private var layers:Array = [];
+    protected var layers:Array = [];
     
     /**
      * Decorate dresses up an element for presentation. Based on the parameters
@@ -141,8 +143,8 @@ package org.tinytlf.decor
       
       //Resolve the layer business first
       var theLayer:Object = resolveLayer(layer);
-      if(!(element in theLayer))
-        theLayer[element] = {};
+      if(!(element in theLayer) || theLayer[element] == null)
+        theLayer[element] = new Dictionary(true);
       
       //Don't handle parsing a styleName for now, do that in a subclass.
       if(styleObj is String)
@@ -185,26 +187,37 @@ package org.tinytlf.decor
         
         if(element)
         {
-          if(!(element in layer))
+          if(!(element in layer) || layer[element] == null)
             continue;
           
           if(!decorationProp)
             for(var dec:String in layer[element])
               delete layer[element][dec];
+//              layer[element][dec] = null;
           else if(decorationProp in layer[element])
             delete layer[element][decorationProp];
+//            layer[element][decorationProp] = null;
           
           if(isEmpty(layer[element]))
             delete layer[element];
+//            layer[element] == null;
+            //Deletes are expensive. Since this is a weak-keyed dictionary
+            //anyway, null this out instead.
         }
         else if(decorationProp)
         {
           for(var e:* in layer)
           {
+            if(layer[e] == null)
+              continue;
+            
             if(decorationProp in layer[e])
               delete layer[e][decorationProp];
+            
             if(isEmpty(layer[e]))
               delete layer[e];
+//              layer[e] = null;
+              //See above
           }
         }
       }
@@ -284,12 +297,12 @@ package org.tinytlf.decor
       // introduced race-condition-y scanerios.
       else if(layer > layers.length)
       {
-        var i:int = -1;
+        var i:int = layers.length - 1;
         while(++i < layer)
-          layers.push((i in layers) ? layers[i] : null);
+          layers[i] = (i in layers) ? layers[i] : null;
       }
       
-      if(!layers[layer])
+      if(!(layers[layer]))
         layers[layer] = new Dictionary(true);
       
       return Dictionary(layers[layer]);
@@ -297,8 +310,12 @@ package org.tinytlf.decor
     
     private function isEmpty(dict:Object):Boolean
     {
+      if(!dict)
+        return true;
+      
       for(var prop:* in dict)
-        return false;
+        if(dict[prop])
+          return false;
       
       return true;
     }

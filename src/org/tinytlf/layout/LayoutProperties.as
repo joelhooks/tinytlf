@@ -24,10 +24,10 @@ package org.tinytlf.layout
     public var width:Number = 0;
     public var lineHeight:Number = 0;
     public var textIndent:Number = 0;
-    public var letterSpacing:Number = 0;
-    public var wordSpacing:Number = 0;
     public var paddingLeft:Number = 0;
     public var paddingRight:Number = 0;
+    public var paddingBottom:Number = 0;
+    public var paddingTop:Number = 0;
     
     public var textAlign:TextAlign = TextAlign.LEFT;
     public var textDirection:TextDirection = TextDirection.LTR;

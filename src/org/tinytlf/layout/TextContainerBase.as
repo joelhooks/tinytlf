@@ -15,36 +15,31 @@ package org.tinytlf.layout
   {
     public function TextContainerBase(container:DisplayObjectContainer, allowedWidth:Number = NaN, allowedHeight:Number = NaN)
     {
-      this.container = container;
+      this.target = container;
       
       _allowedWidth = allowedWidth;
       _allowedHeight = allowedHeight;
     }
     
     private var _container:DisplayObjectContainer;
-    public function get container():DisplayObjectContainer
+    public function get target():DisplayObjectContainer
     {
       return _container;
     }
     
-    public function set container(doc:DisplayObjectContainer):void
+    public function set target(doc:DisplayObjectContainer):void
     {
       if(doc == _container)
         return;
       
       _container = doc;
       
-      if(container.width == 0)
-        container.width = 100;
-      if(container.height == 0)
-        container.height = 100;
-      
-      _allowedWidth = container.width;
-      _allowedHeight = container.height;
+      _allowedWidth = target.width;
+      _allowedHeight = target.height;
       
       shapes = new Sprite();
       
-      container.addChild(shapes);
+      target.addChild(shapes);
     }
     
     protected var _engine:ITextEngine;
@@ -61,13 +56,13 @@ package org.tinytlf.layout
       _engine = textEngine;
     }
     
-    private var _shapes:DisplayObjectContainer;
-    public function get shapes():DisplayObjectContainer
+    private var _shapes:Sprite;
+    public function get shapes():Sprite
     {
       return _shapes;
     }
     
-    public function set shapes(shapesContainer:DisplayObjectContainer):void
+    public function set shapes(shapesContainer:Sprite):void
     {
       if(shapesContainer === _shapes)
         return;
@@ -130,11 +125,11 @@ package org.tinytlf.layout
     public function hasLine(line:TextLine):Boolean
     {
       var child:DisplayObject;
-      var n:int = container.numChildren;
+      var n:int = target.numChildren;
       
       for(var i:int = 0; i < n; i++)
       {
-        child = container.getChildAt(i);
+        child = target.getChildAt(i);
         if(child === line)
           return true;
       }
@@ -142,10 +137,20 @@ package org.tinytlf.layout
       return false;
     }
     
+    public function clear():void
+    {
+      while(target.numChildren)
+        target.removeChildAt(0);
+      
+      height = 0;
+    }
+    
     public function layout(block:TextBlock, line:TextLine):TextLine
     {
       var doc:DisplayObjectContainer;
       var props:LayoutProperties = getLayoutProperties(block);
+      
+      height += props.paddingTop;
       
       if(props.textAlign == TextAlign.JUSTIFY)
         block.textJustifier = new SpaceJustifier("en", LineJustification.ALL_BUT_LAST, true);
@@ -162,7 +167,7 @@ package org.tinytlf.layout
         
         doc.y = height;
         
-        container.addChild(doc);
+        target.addChild(doc);
         
         height += doc.height + props.lineHeight;
         
@@ -171,6 +176,8 @@ package org.tinytlf.layout
         
         line = createLine(block, line);
       }
+      
+      height += props.paddingBottom;
       
       return line;
     }

@@ -131,7 +131,7 @@ package org.tinytlf.decor
     
     protected var spriteMap:Dictionary = new Dictionary(true);
     
-    public function draw(bounds:Vector.<Rectangle>):void
+    public function draw(bounds:Vector.<Rectangle>, layer:int = 0):void
     {
       if(!containers)
         return;
@@ -155,19 +155,32 @@ package org.tinytlf.decor
       for(i = 0; i < n; i++)
       {
         container = containers[i];
-        doc = container.container;
+        doc = container.target;
         
         for(j = 0; j < k; j++)
         {
           if(bounds[j].intersects(doc.getBounds(doc)))
           {
             if(! (container in spriteMap))
-              spriteMap[container] = container.shapes.addChild(new Sprite());
+              spriteMap[container] = resolveLayer(container.shapes, layer);
             
             spriteMap[bounds[j]] = spriteMap[container];
           }
         }
       }
+    }
+    
+    private function resolveLayer(shapes:Sprite, layer:int):Sprite
+    {
+      if(shapes.numChildren > layer)
+        return Sprite(shapes.getChildAt(layer));
+      
+      var sprite:Sprite;
+      var i:int = shapes.numChildren - 1;
+      while(++i <= layer)
+        sprite = Sprite(shapes.addChildAt(new Sprite(), i));
+      
+      return sprite;
     }
     
     protected function getTextBlock(element:ContentElement):TextBlock

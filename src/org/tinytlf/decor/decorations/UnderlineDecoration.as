@@ -13,9 +13,9 @@ package org.tinytlf.decor.decorations
       super();
     }
     
-    override public function draw(bounds:Vector.<Rectangle>):void
+    override public function draw(bounds:Vector.<Rectangle>, layer:int = 0):void
     {
-      super.draw(bounds);
+      super.draw(bounds, layer);
       
       var underlineDelta:Number = Math.round((getStyle("fontSize") || 12) / 6);
       var start:Point;

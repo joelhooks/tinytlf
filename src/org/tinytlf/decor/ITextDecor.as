@@ -1,7 +1,7 @@
 package org.tinytlf.decor
 {
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.view.ITextContainer;
+  import org.tinytlf.layout.ITextContainer;
 
   public interface ITextDecor
   {

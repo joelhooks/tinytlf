@@ -1,11 +1,11 @@
-package org.tinytlf.layout.model.factory
+package org.tinytlf.layout.factory
 {
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextBlock;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.model.adapter.IContentElementAdapter;
-  import org.tinytlf.layout.model.adapter.ITextBlockAdapter;
+  import org.tinytlf.layout.adapter.IContentElementAdapter;
+  import org.tinytlf.layout.adapter.ITextBlockAdapter;
   
   /**
   * Ultimately the job of BlockFactory is to generate TextBlocks for us. It just

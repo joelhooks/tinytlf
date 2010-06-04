@@ -7,7 +7,7 @@ package mx.tinytlf.layout
   
   import mx.tinytlf.UITextLine;
   
-  import org.tinytlf.layout.view.TextContainerBase;
+  import org.tinytlf.layout.TextContainerBase;
   
   public class FlexTextContainer extends TextContainerBase
   {

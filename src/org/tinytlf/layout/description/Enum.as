@@ -1,4 +1,4 @@
-package org.tinytlf.layout.view.description
+package org.tinytlf.layout.description
 {
   public class Enum
   {

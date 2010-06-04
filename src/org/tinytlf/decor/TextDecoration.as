@@ -17,7 +17,7 @@ package org.tinytlf.decor
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.core.StyleAwareActor;
-  import org.tinytlf.layout.view.ITextContainer;
+  import org.tinytlf.layout.ITextContainer;
   
   use namespace flash_proxy;
   

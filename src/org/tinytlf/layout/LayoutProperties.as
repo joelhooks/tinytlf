@@ -1,9 +1,9 @@
 package org.tinytlf.layout
 {
-  import org.tinytlf.layout.view.description.TextAlign;
-  import org.tinytlf.layout.view.description.TextDirection;
-  import org.tinytlf.layout.view.description.TextFloat;
-  import org.tinytlf.layout.view.description.TextTransform;
+  import org.tinytlf.layout.description.TextAlign;
+  import org.tinytlf.layout.description.TextDirection;
+  import org.tinytlf.layout.description.TextFloat;
+  import org.tinytlf.layout.description.TextTransform;
 
   public class LayoutProperties
   {

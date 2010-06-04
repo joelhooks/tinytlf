@@ -5,7 +5,6 @@ package org.tinytlf.layout
   import flash.utils.Dictionary;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.view.ITextContainer;
   
   public class TextLayoutBase implements ITextLayout
   {

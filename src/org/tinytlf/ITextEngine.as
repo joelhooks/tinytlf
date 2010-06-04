@@ -2,10 +2,10 @@ package org.tinytlf
 {
   import flash.text.engine.TextLine;
   
-  import org.tinytlf.layout.model.factory.ILayoutModelFactory;
+  import org.tinytlf.layout.factory.ILayoutModelFactory;
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
-  import org.tinytlf.layout.view.ITextContainer;
+  import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.styles.ITextStyler;
 

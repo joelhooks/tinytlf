@@ -1,4 +1,4 @@
-package org.tinytlf.layout.model.adapter
+package org.tinytlf.layout.adapter
 {
   import flash.events.EventDispatcher;
   import flash.text.engine.ContentElement;

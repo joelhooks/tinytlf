@@ -12,7 +12,7 @@ package org.tinytlf.interaction
   import mx.tinytlf.UITextLine;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.view.ITextContainer;
+  import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.utils.FTEUtil;
 
   public class LineEventInfo

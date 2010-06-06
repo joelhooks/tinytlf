@@ -1,7 +1,5 @@
 package org.tinytlf.utils
 {
-  import org.tinytlf.interaction.LineEventInfo;
-  
   import flash.geom.Point;
   import flash.text.engine.ContentElement;
   import flash.text.engine.GroupElement;

@@ -3,7 +3,7 @@
 				xmlns:fu="http://www.adobe.com/2009/flexUnitUIRunner"
 				creationComplete="onCreationComplete()"
 				width="200" height="200"
-				backgroundColor="#000000" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				backgroundColor="#FFFFFF" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 	<mx:Script>
 		<![CDATA[
 			import org.flexunit.internals.TraceListener;

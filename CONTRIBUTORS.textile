@@ -1,0 +1,4 @@
+h2. Framework Contributors
+
+* "Paul Taylor":http://github.com/guyinthechair
+* "Joel Hooks":http://github.com/joelhooks

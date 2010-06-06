@@ -16,8 +16,6 @@ package org.tinytlf.decor
     function get engine():ITextEngine;
     function set engine(textEngine:ITextEngine):void;
     
-    function set styleProxy(proxy:Object):void;
-    
     function setup(...args):Vector.<Rectangle>
     
     function draw(bounds:Vector.<Rectangle>, layer:int = 0):void;

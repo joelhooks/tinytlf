@@ -14,7 +14,6 @@ package org.tinytlf.decor
   import flash.text.engine.TextLineValidity;
   import flash.utils.Dictionary;
   import flash.utils.flash_proxy;
-  import flash.utils.getDefinitionByName;
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.core.StyleAwareActor;
@@ -57,11 +56,6 @@ package org.tinytlf.decor
         return;
       
       _engine = textEngine;
-    }
-    
-    public function set styleProxy(proxy:Object):void
-    {
-      styles = proxy;
     }
     
     private var derivedParent:DisplayObjectContainer;

@@ -53,7 +53,6 @@ package org.tinytlf
         _decor.engine = this;
       }
       
-      
       return _decor;
     }
     
@@ -76,7 +75,6 @@ package org.tinytlf
         _interactor = new TextInteractorBase();
         _interactor.engine = this;
       }
-      
       
       return _interactor;
     }

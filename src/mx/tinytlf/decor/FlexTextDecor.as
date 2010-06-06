@@ -25,7 +25,7 @@ package mx.tinytlf.decor
       
       //Hook this decoration into the Flex StyleManager
       if(dec)
-        dec.styleProxy = new FlexStyleProxy(dec.styleName);
+        dec['styleProxy'] = new FlexStyleProxy(dec.styleName);
       
       return dec;
     }

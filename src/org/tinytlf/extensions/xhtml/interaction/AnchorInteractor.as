@@ -9,6 +9,7 @@ package org.tinytlf.extensions.xhtml.interaction
   import flash.ui.MouseCursor;
   
   import org.tinytlf.ITextEngine;
+  import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.LineEventInfo;
   import org.tinytlf.interaction.TextDispatcherBase;
   

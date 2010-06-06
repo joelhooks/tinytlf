@@ -66,7 +66,7 @@ package org.tinytlf.extensions.xml.layout.factory
         content = adapter.execute(node.text().toString(), node.localName(), node.attributes());
       }
       else
-        content = adapter.execute(node.toString(), parentName, node.attributes());
+        content = adapter.execute(node.toString(), parentName, node.parent().attributes());
       
       return content;
     }

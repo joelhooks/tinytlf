@@ -43,6 +43,7 @@ package org.tinytlf.decor.decorations
         
         parent.graphics.moveTo(start.x, start.y);
         parent.graphics.lineTo(end.x, end.y);
+        parent.graphics.lineStyle(0, 0, 0);
       }
     }
   }

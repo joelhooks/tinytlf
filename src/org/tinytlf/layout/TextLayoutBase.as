@@ -26,10 +26,10 @@ package org.tinytlf.layout
     public function clear():void
     {
       var i:int = 0;
-      var n:int = containers.length;
+      var n:int = _containers.length;
       for(; i < n; i++)
       {
-        containers[i].clear();
+        _containers[i].clear();
       }
     }
     

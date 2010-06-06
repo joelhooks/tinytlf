@@ -1,8 +1,5 @@
 package org.tinytlf.layout
 {
-  import org.tinytlf.ITextEngine;
-  import org.tinytlf.layout.description.TextAlign;
-  
   import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
   import flash.display.Sprite;
@@ -10,6 +7,10 @@ package org.tinytlf.layout
   import flash.text.engine.SpaceJustifier;
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
+  import flash.utils.Dictionary;
+  
+  import org.tinytlf.ITextEngine;
+  import org.tinytlf.layout.description.TextAlign;
   
   public class TextContainerBase implements ITextContainer
   {
@@ -34,9 +35,7 @@ package org.tinytlf.layout
       
       _container = doc;
       
-      shapes = new Sprite();
-      
-      target.addChild(shapes);
+      shapes = Sprite(target.addChild(new Sprite()));
     }
     
     protected var _engine:ITextEngine;
@@ -119,25 +118,17 @@ package org.tinytlf.layout
       return height;
     }
     
+    protected var lines:Dictionary = new Dictionary(false);
+    
     public function hasLine(line:TextLine):Boolean
     {
-      var child:DisplayObject;
-      var n:int = target.numChildren;
-      
-      for(var i:int = 0; i < n; i++)
-      {
-        child = target.getChildAt(i);
-        if(child === line)
-          return true;
-      }
-      
-      return false;
+      return (line in lines);
     }
     
     public function clear():void
     {
-      while(target.numChildren)
-        target.removeChildAt(0);
+      for(var line:* in lines)
+        target.removeChild(line);
       
       height = 0;
     }
@@ -223,6 +214,7 @@ package org.tinytlf.layout
     
     protected function hookLine(line:TextLine):DisplayObjectContainer
     {
+      lines[line] = true;
       return line;
     }
     

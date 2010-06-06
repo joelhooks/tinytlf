@@ -6,6 +6,28 @@ package org.tinytlf.core
   
   use namespace flash_proxy;
   
+  /**
+  * StyleAwareActor is a useful base class for objects with sealed properties
+  * but who also wish to dynamically accept and store named values. 
+  * 
+  * Since he is a Proxy implementation, he overrides the flash_proxy functions 
+  * for setting and retrieving data. If you are calling a sealed property on 
+  * StyleAwareActor or one of his subclasses, the property or function is called
+  * like normal. However, if you dynamically call or set a property on him, he
+  * calls his <code>getStyle</code> and <code>setStyle</code> methods instead.
+  * 
+  * StyleAwareActor has an internal <code>styles</code> object on which these
+  * properties and values are stored. However, you can override this
+  * functionality by passing in your own implementation to store styles on. You
+  * can do this by calling <code>setStyle("styleProxy", myProxyImplem)</code>.
+  * This will set the <code>myProxyImpl</code> instance as the new internal 
+  * styles storage object, as well as copy over all the key/value pairs currently 
+  * on the <code>myProxyImpl</code> instance.
+  * 
+  * This is particularly useful if you wish to proxy together multiple 
+  * StyleAwareActors for something similar to CSS inheritance, or to support
+  * external CSS implementations (currently Flex and F*CSS).
+  */
   public class StyleAwareActor extends Proxy implements IStyleAware
   {
     public function StyleAwareActor(styleObject:Object = null)
@@ -52,11 +74,23 @@ package org.tinytlf.core
     
     public function setStyle(styleProp:String, newValue:*):void
     {
+      // Because of negative logic, this statement seems backwards, but it's 
+      // just coded for the most common case.
       if(styleProp != 'styleProxy')
         styles[styleProp] = newValue;
       else if(newValue)
-        for(var s:String in newValue)
-          this[s] = newValue[s];
+      {
+        var oldStyles:Object = styles;
+        // Use newValue as the new styles object. This allows you to pass in
+        // and use your own subclass of StyleAwareActor (useful for F*CSS or 
+        // Flex styles)
+        styles = newValue;
+        // Copy values from the old styles to the new as long as they aren't 
+        // already present the new styles
+        for(var s:String in oldStyles)
+          if(!(s in styles))
+            this[s] = oldStyles[s];
+      }
     }
     
     override flash_proxy function callProperty(name:*, ...parameters):*

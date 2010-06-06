@@ -1,17 +1,14 @@
 package org.tinytlf.decor
 {
-  import flash.display.Sprite;
   import flash.utils.Dictionary;
   
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.decor.decorations.SelectionDecoration;
   import org.tinytlf.layout.ITextContainer;
   
   public class TextDecor implements ITextDecor
   {
     public function TextDecor()
     {
-      mapDecoration("selection", SelectionDecoration);
     }
     
     protected var _engine:ITextEngine;
@@ -138,7 +135,6 @@ package org.tinytlf.decor
       if(!element || !styleObj)
         return;
       
-      
       //Resolve the layer business first
       var theLayer:Object = resolveLayer(layer);
       if(!(element in theLayer) || theLayer[element] == null)
@@ -188,16 +184,11 @@ package org.tinytlf.decor
           if(!decorationProp)
             for(var dec:String in layer[element])
               delete layer[element][dec];
-//              layer[element][dec] = null;
           else if(decorationProp in layer[element])
             delete layer[element][decorationProp];
-//            layer[element][decorationProp] = null;
           
           if(isEmpty(layer[element]))
             delete layer[element];
-//            layer[element] == null;
-            //Deletes are expensive. Since this is a weak-keyed dictionary
-            //anyway, null this out instead.
         }
         else if(decorationProp)
         {
@@ -211,8 +202,6 @@ package org.tinytlf.decor
             
             if(isEmpty(layer[e]))
               delete layer[e];
-//              layer[e] = null;
-              //See above
           }
         }
       }
@@ -263,20 +252,6 @@ package org.tinytlf.decor
       ITextDecoration(decoration).engine = engine;
       
       return ITextDecoration(decoration);
-    }
-    
-    protected function evaluates(input:*):Boolean
-    {
-      if(input == null)
-        return false;
-      
-      if(input is Boolean)
-        return Boolean(input);
-      
-      if(input is String)
-        return (input != "" && input != "none");
-      
-      return true;
     }
     
     protected function resolveLayer(layer:int):Dictionary

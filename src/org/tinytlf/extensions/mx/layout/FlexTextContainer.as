@@ -1,10 +1,10 @@
-package mx.tinytlf.layout
+package org.tinytlf.extensions.mx.layout
 {
   import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
   import flash.text.engine.TextLine;
   
-  import mx.tinytlf.UITextLine;
+  import org.tinytlf.extensions.mx.UITextLine;
   
   import org.tinytlf.layout.TextContainerBase;
   

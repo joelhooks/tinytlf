@@ -1,4 +1,4 @@
-package mx.tinytlf.styles
+package org.tinytlf.extensions.mx.styles
 {
   import flash.text.engine.*;
   

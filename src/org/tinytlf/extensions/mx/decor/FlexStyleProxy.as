@@ -1,4 +1,4 @@
-package mx.tinytlf.decor
+package org.tinytlf.extensions.mx.decor
 {
   import mx.core.Singleton;
   import mx.styles.CSSStyleDeclaration;

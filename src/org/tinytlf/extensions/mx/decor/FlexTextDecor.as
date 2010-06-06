@@ -1,4 +1,4 @@
-package mx.tinytlf.decor
+package org.tinytlf.extensions.mx.decor
 {
   import org.tinytlf.decor.ITextDecoration;
   import org.tinytlf.decor.TextDecor;

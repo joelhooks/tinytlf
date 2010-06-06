@@ -1,4 +1,4 @@
-package mx.tinytlf
+package org.tinytlf.extensions.mx
 {
   import flash.display.DisplayObject;
   import flash.events.Event;
@@ -10,7 +10,7 @@ package mx.tinytlf
   import mx.core.IUIComponent;
   import mx.core.ScrollPolicy;
   import mx.core.mx_internal;
-  import mx.tinytlf.layout.FlexTextContainer;
+  import org.tinytlf.extensions.mx.layout.FlexTextContainer;
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.decor.decorations.BackgroundColorDecoration;

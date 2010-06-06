@@ -1,9 +1,9 @@
-package mx.tinytlf
+package org.tinytlf.extensions.mx
 {
   import flash.display.Stage;
   
-  import mx.tinytlf.decor.FlexTextDecor;
-  import mx.tinytlf.styles.FlexTextStyler;
+  import org.tinytlf.extensions.mx.decor.FlexTextDecor;
+  import org.tinytlf.extensions.mx.styles.FlexTextStyler;
   
   import org.tinytlf.TextEngine;
   import org.tinytlf.decor.ITextDecor;

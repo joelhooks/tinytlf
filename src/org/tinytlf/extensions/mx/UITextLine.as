@@ -1,4 +1,4 @@
-package mx.tinytlf
+package org.tinytlf.extensions.mx
 {
   import flash.display.Graphics;
   import flash.text.engine.TextLine;

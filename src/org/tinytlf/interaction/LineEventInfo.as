@@ -1,5 +1,6 @@
 package org.tinytlf.interaction
 {
+  import flash.display.DisplayObjectContainer;
   import flash.events.Event;
   import flash.events.EventDispatcher;
   import flash.events.MouseEvent;
@@ -7,8 +8,7 @@ package org.tinytlf.interaction
   import flash.text.engine.TextLine;
   import flash.text.engine.TextLineMirrorRegion;
   import flash.text.engine.TextLineValidity;
-  
-  import mx.tinytlf.UITextLine;
+  import flash.utils.getDefinitionByName;
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.layout.ITextContainer;
@@ -16,15 +16,28 @@ package org.tinytlf.interaction
 
   public class LineEventInfo
   {
+    public static var uiLineClass:Class = checkFlex();
+    
+    protected static function checkFlex():Class
+    {
+      try{
+        return getDefinitionByName("mx.tinytlf::UITextLine") as Class;
+      }
+      catch(e:*){
+      }
+      
+      return null;
+    }
+    
     public static function getInfo(event:Event, eventMirror:EventDispatcher = null):LineEventInfo
     {
       var target:Object = event.target;
-      var canProcess:Boolean = (target is TextLine) || (target is UITextLine);
+      var canProcess:Boolean = (target is TextLine) || (uiLineClass && target is uiLineClass);
       
       if(!canProcess)
         return null;
       
-      var line:TextLine = (target as TextLine) || UITextLine(target).line;
+      var line:TextLine = (target as TextLine) || Object(target).line;
       
       if(line.validity == TextLineValidity.INVALID)
         return null;
@@ -37,17 +50,17 @@ package org.tinytlf.interaction
       var element:ContentElement = FTEUtil.getContentElementAt(line.textBlock.content, index);
       var mirrorRegion:TextLineMirrorRegion = line.getMirrorRegion(eventMirror || element.eventMirror);
       
-      return new LineEventInfo(line, line.userData, mirrorRegion, mirrorRegion != null ? mirrorRegion.element : element, (line.parent as UITextLine) || (target as UITextLine));
+      return new LineEventInfo(line, line.userData, mirrorRegion, mirrorRegion != null ? mirrorRegion.element : element, line.parent || (target as DisplayObjectContainer));
     }
     
-    public function LineEventInfo(line:TextLine, engine:ITextEngine, mirrorRegion:TextLineMirrorRegion, element:ContentElement, uiTextLine:UITextLine)
+    public function LineEventInfo(line:TextLine, engine:ITextEngine, mirrorRegion:TextLineMirrorRegion, element:ContentElement, lineParent:DisplayObjectContainer)
     {
       _engine = engine;
       _element = element;
       _line = line;
       _mirrorRegion = mirrorRegion;
       _container = engine.layout.getContainerForLine(line);
-      _uiLine = uiTextLine;
+      _lineParent = lineParent;
     }
     
     private var _container:ITextContainer;
@@ -68,10 +81,10 @@ package org.tinytlf.interaction
       return _element;
     }
     
-    private var _uiLine:UITextLine;
-    public function get uiTextLineline():UITextLine
+    private var _lineParent:DisplayObjectContainer;
+    public function get lineParent():DisplayObjectContainer
     {
-      return _uiLine;
+      return _lineParent;
     }
     
     private var _line:TextLine;

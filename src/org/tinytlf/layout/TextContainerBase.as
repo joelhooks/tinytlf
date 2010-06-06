@@ -34,9 +34,6 @@ package org.tinytlf.layout
       
       _container = doc;
       
-      _allowedWidth = target.width;
-      _allowedHeight = target.height;
-      
       shapes = new Sprite();
       
       target.addChild(shapes);
@@ -165,11 +162,13 @@ package org.tinytlf.layout
         
         doc = hookLine(line);
         
+        height += doc.height;
+        
         doc.y = height;
         
         target.addChild(doc);
         
-        height += doc.height + props.lineHeight;
+        height += props.lineHeight;
         
         if(!isNaN(allowedHeight) && measuredHeight > allowedHeight)
           return line;

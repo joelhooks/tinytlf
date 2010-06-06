@@ -2,6 +2,7 @@ package mx.tinytlf
 {
   import flash.display.DisplayObject;
   import flash.events.Event;
+  import flash.events.EventPhase;
   import flash.text.engine.TextLine;
   
   import mx.containers.Canvas;
@@ -63,13 +64,13 @@ package mx.tinytlf
     
     public function get engine():ITextEngine
     {
-      if(!stage)
-        throw new Error('The engine can only be accessed once the FlexFTETextArea is on the stage.');
-      
       if(!_engine)
       {
         _engine = new FlexTextEngine(stage);
         _engine.layout.addContainer(container);
+        
+        if(!stage)
+          addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
       }
       
       return _engine;
@@ -204,7 +205,12 @@ package mx.tinytlf
     
     protected function onAddedToStage(event:Event):void
     {
+      if(event.eventPhase != EventPhase.AT_TARGET)
+        return;
+      
       removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+      
+      engine.stage = stage;
       
       if(textNeedsRender)
         invalidateProperties();

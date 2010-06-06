@@ -17,6 +17,7 @@ package org.tinytlf.layout
     
     function getContainerForLine(line:TextLine):ITextContainer;
     
+    function clear():void;
     function render(blocks:Vector.<TextBlock>):void;
     
     function getLayoutProperties(block:TextBlock):LayoutProperties;

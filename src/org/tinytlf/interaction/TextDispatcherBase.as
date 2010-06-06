@@ -25,6 +25,13 @@ package org.tinytlf.interaction
     protected static var mouseState:uint = UP; // | DOWN;
     protected static var mouseCoords:Point;
     
+    protected function onClick(event:MouseEvent):void
+    {
+      mouseState = FTEUtil.updateBits(mouseState, DOWN, false);
+      mouseState = FTEUtil.updateBits(mouseState, UP);
+      mouseCoords = new Point(event.stageX, event.stageY);
+    }
+    
     protected function onRollOver(event:MouseEvent):void
     {
       mouseState = FTEUtil.updateBits(mouseState, OVER);
@@ -85,6 +92,7 @@ package org.tinytlf.interaction
       target.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true);
       target.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown, false, 0, true);
       target.addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, 0, true);
+      target.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
       
       target.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false, 0, true);
       target.addEventListener(KeyboardEvent.KEY_UP, onKeyUp, false, 0, true);

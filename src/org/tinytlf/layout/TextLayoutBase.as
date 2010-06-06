@@ -23,6 +23,16 @@ package org.tinytlf.layout
       _engine = textEngine;
     }
     
+    public function clear():void
+    {
+      var i:int = 0;
+      var n:int = containers.length;
+      for(; i < n; i++)
+      {
+        containers[i].clear();
+      }
+    }
+    
     public function render(blocks:Vector.<TextBlock>):void
     {
       if(!_containers)
@@ -31,8 +41,8 @@ package org.tinytlf.layout
       var blockIndex:int = 0;
       var containerIndex:int = 0;
       
-      var block:TextBlock = blocks[0];
-      var container:ITextContainer = _containers[0];
+      var block:TextBlock;
+      var container:ITextContainer;
       var line:TextLine;
       
       while(blockIndex < blocks.length)
@@ -42,8 +52,8 @@ package org.tinytlf.layout
         
         line = container.layout(block, line);
         
-        if(line)
-          container = _containers[++containerIndex];
+        if(line && ++containerIndex < _containers.length)
+          container = _containers[containerIndex];
         else if(++blockIndex < blocks.length)
           block = blocks[blockIndex];
         else

@@ -4,8 +4,6 @@ package org.tinytlf.interaction
 
   import flash.events.EventDispatcher;
   
-  import mx.core.IFactory;
-  
   public class TextInteractorBase extends TextDispatcherBase implements ITextInteractor
   {
     protected var _engine:ITextEngine;
@@ -31,9 +29,6 @@ package org.tinytlf.interaction
       
       if(mirror is Class)
         return new(mirror as Class)() as EventDispatcher;
-      
-      if(mirror is IFactory)
-        return IFactory(mirror).newInstance() as EventDispatcher;
       
       if(mirror is Function)
         return (mirror as Function)() as EventDispatcher;

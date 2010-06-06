@@ -1,5 +1,6 @@
 package org.tinytlf.decor
 {
+  import flash.display.DisplayObject;
   import flash.display.DisplayObjectContainer;
   import flash.display.Sprite;
   import flash.events.Event;
@@ -10,13 +11,14 @@ package org.tinytlf.decor
   import flash.text.engine.TextBlock;
   import flash.text.engine.TextLine;
   import flash.text.engine.TextLineMirrorRegion;
+  import flash.text.engine.TextLineValidity;
   import flash.utils.Dictionary;
   import flash.utils.flash_proxy;
-  
-  import mx.tinytlf.UITextLine;
+  import flash.utils.getDefinitionByName;
   
   import org.tinytlf.ITextEngine;
   import org.tinytlf.core.StyleAwareActor;
+  import org.tinytlf.interaction.LineEventInfo;
   import org.tinytlf.layout.ITextContainer;
   
   use namespace flash_proxy;
@@ -73,6 +75,8 @@ package org.tinytlf.decor
       
       var arg:* = args[0];
       
+      var uiLineClass:Class = LineEventInfo.uiLineClass;
+      
       if(arg is ContentElement)
       {
         var element:ContentElement = arg as ContentElement;
@@ -84,13 +88,15 @@ package org.tinytlf.decor
         var rect:Rectangle;
         var line:DisplayObjectContainer;
         
+        
         while(regions.length > 0)
         {
           region = regions.pop();
           rect = region.bounds;
-          line = region.textLine.parent is UITextLine ? region.textLine.parent : region.textLine;;
           
-          bounds.push(new Rectangle(rect.x + line.x, rect.y + rect.height + line.y, rect.width, rect.height));
+          line = (uiLineClass && region.textLine.parent is uiLineClass) ? region.textLine.parent : region.textLine;
+          
+          bounds.push(new Rectangle(rect.x + line.x, rect.y + line.y, rect.width, rect.height));
         }
         
         // @TODO
@@ -116,9 +122,9 @@ package org.tinytlf.decor
         var tl:TextLine = arg as TextLine;
         bounds.push(tl.getBounds(tl.parent));
       }
-      else if(arg is UITextLine)
+      else if(arg is uiLineClass)
       {
-        var ui:UITextLine = arg as UITextLine;
+        var ui:DisplayObject = arg as DisplayObject;
         bounds.push(ui.getBounds(ui.parent));
       }
       else if(arg is Rectangle)
@@ -232,12 +238,17 @@ package org.tinytlf.decor
           elem = GroupElement(element).getElementAt(i);
           regions = regions.concat(getMirrorRegions(elem));
         }
-        
       }
+      
+      var line:TextLine;
       
       while(lines.length > 0)
       {
-        lineRegions = lines.pop().mirrorRegions.concat();
+        line = lines.pop();
+        if(line.validity != TextLineValidity.VALID)
+          continue;
+        
+        lineRegions = line.mirrorRegions.concat();
         while(lineRegions.length > 0)
         {
           region = lineRegions.pop();

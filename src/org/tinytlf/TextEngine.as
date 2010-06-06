@@ -15,8 +15,7 @@ package org.tinytlf
   
   public class TextEngine extends EventDispatcher implements ITextEngine
   {
-    protected var stage:Stage;
-    public function TextEngine(stage:Stage)
+    public function TextEngine(stage:Stage = null)
     {
       this.stage = stage;
     }
@@ -26,7 +25,10 @@ package org.tinytlf
     public function get blockFactory():ILayoutModelFactory
     {
       if(!_blockFactory)
+      {
         _blockFactory = new AbstractLayoutModelFactory();
+        _blockFactory.engine = this;
+      }
       
       return _blockFactory;
     }
@@ -42,12 +44,15 @@ package org.tinytlf
     }
     
     protected var _decor:ITextDecor;
+    
     public function get decor():ITextDecor
     {
       if(!_decor)
+      {
         _decor = new TextDecor();
+        _decor.engine = this;
+      }
       
-      _decor.engine = this;
       
       return _decor;
     }
@@ -58,15 +63,20 @@ package org.tinytlf
         return;
       
       _decor = textDecor;
+      
+      _decor.engine = this;
     }
     
     protected var _interactor:ITextInteractor;
+    
     public function get interactor():ITextInteractor
     {
       if(!_interactor)
+      {
         _interactor = new TextInteractorBase();
+        _interactor.engine = this;
+      }
       
-      _interactor.engine = this;
       
       return _interactor;
     }
@@ -77,15 +87,19 @@ package org.tinytlf
         return;
       
       _interactor = textInteractor;
+      
+      _interactor.engine = this;
     }
     
     protected var _layout:ITextLayout;
+    
     public function get layout():ITextLayout
     {
       if(!_layout)
+      {
         _layout = new TextLayoutBase();
-      
-      _layout.engine = this;
+        _layout.engine = this;
+      }
       
       return _layout;
     }
@@ -96,9 +110,23 @@ package org.tinytlf
         return;
       
       _layout = textLayout;
+      
+      _layout.engine = this;
+    }
+    
+    protected var _stage:Stage;
+    
+    public function set stage(theStage:Stage):void
+    {
+      if(theStage === _stage)
+        return;
+      
+      _stage = theStage;
+      invalidateStage();
     }
     
     protected var _styler:ITextStyler;
+    
     public function get styler():ITextStyler
     {
       if(!_styler)
@@ -132,6 +160,7 @@ package org.tinytlf
     }
     
     protected var _invalidateLinesFlag:Boolean = false;
+    
     public function invalidateLines():void
     {
       if(_invalidateLinesFlag)
@@ -142,6 +171,7 @@ package org.tinytlf
     }
     
     protected var _invalidateDecorationsFlag:Boolean = false;
+    
     public function invalidateDecorations():void
     {
       if(_invalidateDecorationsFlag)
@@ -152,27 +182,30 @@ package org.tinytlf
     }
     
     protected var _invalidateStageFlag:Boolean = false;
+    
     protected function invalidateStage():void
     {
-      stage.addEventListener(Event.RENDER, onRender);
+      if(!_stage)
+        return;
+      
+      _stage.addEventListener(Event.RENDER, onRender);
       
       if(_rendering)
-        setTimeout(stage.invalidate, 0);
+        setTimeout(_stage.invalidate, 0);
       else
-        stage.invalidate();
+        _stage.invalidate();
       
       _invalidateStageFlag = false;
     }
     
     protected var _rendering:Boolean = false;
+    
     protected function onRender(event:Event):void
     {
-      if(!stage)
-      {
+      if(!_stage)
         return;
-      }
       
-      stage.removeEventListener(Event.RENDER, onRender);
+      _stage.removeEventListener(Event.RENDER, onRender);
       
       _rendering = true;
       
@@ -194,6 +227,7 @@ package org.tinytlf
     
     public function renderLines():void
     {
+      layout.clear();
       layout.render(blockFactory.blocks);
     }
     
@@ -248,6 +282,7 @@ class Cursor extends Shape
   }
   
   private var showing:Boolean = false;
+  
   private function toggle(event:TimerEvent):void
   {
     graphics.clear();

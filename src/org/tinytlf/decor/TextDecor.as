@@ -3,8 +3,6 @@ package org.tinytlf.decor
   import flash.display.Sprite;
   import flash.utils.Dictionary;
   
-  import mx.core.IFactory;
-  
   import org.tinytlf.ITextEngine;
   import org.tinytlf.decor.decorations.SelectionDecoration;
   import org.tinytlf.layout.ITextContainer;
@@ -250,8 +248,6 @@ package org.tinytlf.decor
       var decoration:* = decorationsMap[styleProp];
       if(decoration is Class)
         decoration = ITextDecoration(new decoration());
-      if(decoration is IFactory)
-        decoration = ITextDecoration(IFactory(decoration).newInstance());
       if(decoration is Function)
         decoration = ITextDecoration((decoration as Function)());
       

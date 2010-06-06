@@ -1,17 +1,17 @@
 package org.tinytlf
 {
+  import flash.display.Stage;
   import flash.text.engine.TextLine;
-
-  import org.tinytlf.layout.factory.ILayoutModelFactory;
+  
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
   import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
+  import org.tinytlf.layout.factory.ILayoutModelFactory;
   import org.tinytlf.styles.ITextStyler;
 
   public interface ITextEngine
   {
-
     function get blockFactory():ILayoutModelFactory;
     function set blockFactory(value:ILayoutModelFactory):void;
     
@@ -23,6 +23,8 @@ package org.tinytlf
     
     function get layout():ITextLayout;
     function set layout(textlayout:ITextLayout):void;
+    
+    function set stage(theStage:Stage):void;
     
     function get styler():ITextStyler;
     function set styler(textStyler:ITextStyler):void;

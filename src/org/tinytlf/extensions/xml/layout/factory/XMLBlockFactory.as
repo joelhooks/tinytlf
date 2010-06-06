@@ -1,4 +1,4 @@
-package org.tinytlf.layout.factory.xml
+package org.tinytlf.extensions.xml.layout.factory
 {
   import flash.text.engine.ContentElement;
   
@@ -7,6 +7,8 @@ package org.tinytlf.layout.factory.xml
   
   public class XMLBlockFactory extends AbstractLayoutModelFactory
   {
+    XML.ignoreWhitespace = false;
+    
     override public function createElements(... args):Vector.<ContentElement>
     {
       var elements:Vector.<ContentElement> = super.createElements.apply(null, args);
@@ -14,9 +16,32 @@ package org.tinytlf.layout.factory.xml
       if(!(data is String) && !(data is XML))
         return elements;
       
-      elements.push(getElementForNode(XML(data)));
+      var xml:XML = getXML(data);
+      if(!xml)
+        return elements;
+      
+      elements.push(getElementForNode(xml));
       
       return elements;
+    }
+    
+    protected function getXML(xmlOrString:Object):XML
+    {
+      try{
+        return XML(xmlOrString);
+      }
+      catch(e:Error){
+        //If we failed the first time, maybe they passed in a string like this:
+        // "My string that has <node>nodes</node> without a root."
+        try{
+          return new XML("<_>" + xmlOrString + "</_>");
+        }
+        catch(e:Error){
+          //Do nothing now, we've failed.
+        }
+      }
+      
+      return null;
     }
     
     protected function getElementForNode(node:XML, parentName:String = ""):ContentElement

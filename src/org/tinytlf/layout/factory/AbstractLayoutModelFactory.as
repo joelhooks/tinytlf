@@ -10,8 +10,6 @@ package org.tinytlf.layout.factory
   import flash.text.engine.TextBlock;
   import flash.utils.Dictionary;
   
-  import mx.core.IFactory;
-  
   public class AbstractLayoutModelFactory implements ILayoutModelFactory
   {
     public static const WHITE_SPACE:String = "whitespace";
@@ -127,8 +125,6 @@ package org.tinytlf.layout.factory
       }
       
       adapter = elementAdapterMap[element];
-      if(adapter is IFactory)
-        adapter = IContentElementAdapter(IFactory(adapter).newInstance());
       if(adapter is Class)
         adapter = IContentElementAdapter(new (adapter as Class)());
       if(adapter is Function)

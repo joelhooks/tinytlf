@@ -17,10 +17,6 @@ package org.tinytlf.layout.factory
     public static const WHITE_SPACE:String = "whitespace";
     public static const GENERIC_TEXT:String = "text";
     
-    public function AbstractLayoutModelFactory()
-    {
-    }
-    
     private var _blockAdapter:ITextBlockAdapter;
     
     public function get blockAdapter():ITextBlockAdapter

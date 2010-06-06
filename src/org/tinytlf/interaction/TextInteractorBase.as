@@ -1,20 +1,13 @@
 package org.tinytlf.interaction
 {
   import org.tinytlf.ITextEngine;
-  import org.tinytlf.utils.Type;
-  
+
   import flash.events.EventDispatcher;
-  import flash.events.IEventDispatcher;
   
   import mx.core.IFactory;
   
   public class TextInteractorBase extends TextDispatcherBase implements ITextInteractor
   {
-    public function TextInteractorBase()
-    {
-      super(null);
-    }
-    
     protected var _engine:ITextEngine;
     public function get engine():ITextEngine
     {

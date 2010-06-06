@@ -22,10 +22,6 @@ package org.tinytlf.styles
   
   public class TextStyler extends StyleAwareActor implements ITextStyler
   {
-    public function TextStyler()
-    {
-    }
-    
     protected var _engine:ITextEngine;
     public function get engine():ITextEngine
     {

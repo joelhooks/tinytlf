@@ -7,11 +7,6 @@ package org.tinytlf.layout.factory.xml
   
   public class XMLBlockFactory extends AbstractLayoutModelFactory
   {
-    public function XMLBlockFactory()
-    {
-      super();
-    }
-    
     override public function createElements(... args):Vector.<ContentElement>
     {
       var elements:Vector.<ContentElement> = super.createElements.apply(null, args);

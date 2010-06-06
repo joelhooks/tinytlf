@@ -10,7 +10,7 @@ package org.tinytlf.decor.decorations
   {
     public function UnderlineDecoration(styleName:String = "")
     {
-      super();
+      super(styleName);
     }
     
     override public function draw(bounds:Vector.<Rectangle>, layer:int = 0):void

@@ -3,8 +3,6 @@ package org.tinytlf.decor.decorations
   import flash.display.Sprite;
   import flash.geom.Rectangle;
   
-  import mx.styles.StyleManager;
-  
   import org.tinytlf.decor.TextDecoration;
 
   public class BackgroundColorDecoration extends TextDecoration

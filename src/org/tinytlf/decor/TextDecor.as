@@ -174,10 +174,7 @@ package org.tinytlf.decor
     {
       var i:int = layers.length - 1;
       var layer:Dictionary;
-      var decorationProp:String;
-      var decoration:ITextDecoration;
-      var s:String;
-      
+
       for(; i >= 0; i--)
       {
         layer = Dictionary(layers[i]);

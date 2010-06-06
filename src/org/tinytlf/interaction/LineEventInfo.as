@@ -2,7 +2,6 @@ package org.tinytlf.interaction
 {
   import flash.events.Event;
   import flash.events.EventDispatcher;
-  import flash.events.KeyboardEvent;
   import flash.events.MouseEvent;
   import flash.text.engine.ContentElement;
   import flash.text.engine.TextLine;

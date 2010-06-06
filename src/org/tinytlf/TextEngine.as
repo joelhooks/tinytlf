@@ -1,24 +1,17 @@
 package org.tinytlf
 {
   import flash.display.DisplayObjectContainer;
-  import flash.display.Shape;
   import flash.display.Stage;
   import flash.events.Event;
   import flash.events.EventDispatcher;
   import flash.text.engine.TextBlock;
   import flash.utils.setTimeout;
   
-  import org.tinytlf.decor.ITextDecor;
-  import org.tinytlf.decor.TextDecor;
-  import org.tinytlf.interaction.ITextInteractor;
-  import org.tinytlf.interaction.TextInteractorBase;
-  import org.tinytlf.layout.ITextContainer;
-  import org.tinytlf.layout.ITextLayout;
-  import org.tinytlf.layout.TextLayoutBase;
-  import org.tinytlf.layout.factory.AbstractLayoutModelFactory;
-  import org.tinytlf.layout.factory.ILayoutModelFactory;
-  import org.tinytlf.styles.ITextStyler;
-  import org.tinytlf.styles.TextStyler;
+  import org.tinytlf.decor.*;
+  import org.tinytlf.interaction.*;
+  import org.tinytlf.layout.*;
+  import org.tinytlf.layout.factory.*;
+  import org.tinytlf.styles.*;
   
   public class TextEngine extends EventDispatcher implements ITextEngine
   {

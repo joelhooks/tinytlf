@@ -1,6 +1,5 @@
 package org.tinytlf.decor.decorations
 {
-  import flash.display.Sprite;
   import flash.geom.Rectangle;
   import org.tinytlf.decor.TextDecoration;
   

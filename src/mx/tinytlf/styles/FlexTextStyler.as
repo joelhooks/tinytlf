@@ -1,20 +1,6 @@
 package mx.tinytlf.styles
 {
-  import flash.text.engine.BreakOpportunity;
-  import flash.text.engine.CFFHinting;
-  import flash.text.engine.DigitCase;
-  import flash.text.engine.DigitWidth;
-  import flash.text.engine.ElementFormat;
-  import flash.text.engine.FontDescription;
-  import flash.text.engine.FontLookup;
-  import flash.text.engine.FontPosture;
-  import flash.text.engine.FontWeight;
-  import flash.text.engine.Kerning;
-  import flash.text.engine.LigatureLevel;
-  import flash.text.engine.RenderingMode;
-  import flash.text.engine.TextBaseline;
-  import flash.text.engine.TextRotation;
-  import flash.text.engine.TypographicCase;
+  import flash.text.engine.*;
   
   import mx.core.Singleton;
   import mx.styles.CSSStyleDeclaration;

@@ -10,10 +10,6 @@ package org.tinytlf.layout.adapter
   
   public class ContentElementAdapter implements IContentElementAdapter
   {
-    public function ContentElementAdapter()
-    {
-    }
-    
     public function execute(data:Object, ... context:Array):ContentElement
     {
       var name:String = "";

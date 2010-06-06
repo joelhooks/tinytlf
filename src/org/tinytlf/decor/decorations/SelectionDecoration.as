@@ -1,7 +1,5 @@
 package org.tinytlf.decor.decorations
 {
-  import __AS3__.vec.Vector;
-  
   import flash.geom.Point;
   import flash.geom.Rectangle;
   import flash.text.engine.TextLine;

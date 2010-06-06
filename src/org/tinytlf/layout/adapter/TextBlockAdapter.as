@@ -7,10 +7,6 @@ package org.tinytlf.layout.adapter
   
   public class TextBlockAdapter implements ITextBlockAdapter
   {
-    public function TextBlockAdapter()
-    {
-    }
-    
     public function execute(content:ContentElement, ...context):TextBlock
     {
       return new TextBlock(content);

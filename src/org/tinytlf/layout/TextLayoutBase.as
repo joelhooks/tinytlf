@@ -8,10 +8,6 @@ package org.tinytlf.layout
   
   public class TextLayoutBase implements ITextLayout
   {
-    public function TextLayoutBase()
-    {
-    }
-    
     protected var _engine:ITextEngine;
     
     public function get engine():ITextEngine

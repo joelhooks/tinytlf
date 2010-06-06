@@ -1,15 +1,9 @@
 package mx.tinytlf
 {
   import flash.display.Graphics;
-  import flash.events.EventDispatcher;
-  import flash.events.MouseEvent;
   import flash.text.engine.TextLine;
-  import flash.text.engine.TextLineMirrorRegion;
-  
+
   import mx.core.UIComponent;
-  
-  import org.tinytlf.interaction.TextDispatcherBase;
-  import org.tinytlf.utils.EventProxy;
   
   public class UITextLine extends UIComponent
   {
@@ -42,21 +36,6 @@ package mx.tinytlf
     {
       width = line.width;
       line.y = height = line.height;
-      
-      /*if(line.mirrorRegions)
-      {
-        var regions:Vector.<TextLineMirrorRegion> = line.mirrorRegions.concat();
-        var n:int = regions.length;
-        var dispatcher:EventDispatcher;
-        var proxy:EventProxy;
-        
-        for(var i:int = 0; i < n; i++)
-        {
-          dispatcher = regions[i].mirror;
-          if(dispatcher is TextDispatcherBase)
-            TextDispatcherBase(dispatcher).addListeners(this);
-        }
-      }*/
       
       addChild(line);
     }

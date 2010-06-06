@@ -23,7 +23,7 @@ package mx.tinytlf.decor
     {
       var dec:ITextDecoration = super.getDecoration(styleProp, container);
       
-      //Hoook this decoration into the Flex StyleManager
+      //Hook this decoration into the Flex StyleManager
       if(dec)
         dec.styleProxy = new FlexStyleProxy(dec.styleName);
       

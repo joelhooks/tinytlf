@@ -6,6 +6,7 @@ package org.tinytlf
   import flash.events.EventPhase;
   import flash.text.engine.TextLine;
   
+  import org.tinytlf.core.IStyleAware;
   import org.tinytlf.decor.decorations.BackgroundColorDecoration;
   import org.tinytlf.decor.decorations.StrikeThroughDecoration;
   import org.tinytlf.decor.decorations.UnderlineDecoration;
@@ -16,7 +17,7 @@ package org.tinytlf
   import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.TextContainerBase;
   
-  public class TextField extends Sprite
+  public class TextField extends Sprite implements IStyleAware
   {
     public function TextField()
     {
@@ -121,6 +122,31 @@ package org.tinytlf
       engine.invalidate();
     }
     
+    public function get style():Object
+    {
+      return engine.styler.style;
+    }
+    
+    public function set style(value:Object):void
+    {
+      engine.styler.style = value;
+    }
+    
+    public function clearStyle(styleProp:String):Boolean
+    {
+      return engine.styler.clearStyle(styleProp);
+    }
+    
+    public function getStyle(styleProp:String):*
+    {
+      return engine.styler.getStyle(styleProp);
+    }
+    
+    public function setStyle(styleProp:String, newValue:*):void
+    {
+      engine.styler.setStyle(styleProp, newValue);
+    }
+    
     /**
      * @private
      * Called just before a line is added to the display list.
@@ -132,7 +158,8 @@ package org.tinytlf
     
     /**
      * @private
-     * Called just before rendering of the TextContainer.
+     * Called from the constructor, maps in all the properties that the engine
+     * uses.
      */
     protected function hookEngine():void
     {

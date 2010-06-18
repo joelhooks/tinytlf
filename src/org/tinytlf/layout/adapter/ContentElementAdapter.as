@@ -12,17 +12,17 @@ package org.tinytlf.layout.adapter
   {
     public function execute(data:Object, ... context:Array):ContentElement
     {
-      var name:String = "";
-      
-      if(context.length > 0)
-        name = context.shift();
-      
       var element:ContentElement;
       
+      var name:String = "";
+      
+      if(context.length)
+        name = context[0].localName();
+      
       if(data is String)
-        element = new TextElement(String(data), getElementFormat(name), getEventMirror(name));
+        element = new TextElement(String(data), getElementFormat(context), getEventMirror(name));
       else if(data is Vector.<ContentElement>)
-        element = new GroupElement(Vector.<ContentElement>(data), getElementFormat(name), getEventMirror(name));
+        element = new GroupElement(Vector.<ContentElement>(data), getElementFormat(context), getEventMirror(name));
       
       if(!element)
         return null;
@@ -50,12 +50,13 @@ package org.tinytlf.layout.adapter
       _engine = textEngine;
     }
     
-    protected function getElementFormat(forName:String):ElementFormat
+    protected function getElementFormat(context:Object):ElementFormat
     {
+      // You can't render a textLine with a null ElementFormat, so return an empty one here.
       if(!_engine)
-        return null;
+        return new ElementFormat();
       
-      return engine.styler.getElementFormat(forName);
+      return engine.styler.getElementFormat(context);
     }
     
     protected function getEventMirror(forName:String):EventDispatcher

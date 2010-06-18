@@ -20,6 +20,8 @@ package org.tinytlf.extensions.xml.layout.factory
       if(!xml)
         return elements;
       
+      ancestorList = [];
+      
       elements.push(getElementForNode(xml));
       
       return elements;
@@ -44,10 +46,20 @@ package org.tinytlf.extensions.xml.layout.factory
       return null;
     }
     
-    protected function getElementForNode(node:XML, parentName:String = ""):ContentElement
+    protected var ancestorList:Array;
+    
+    protected function getElementForNode(node:XML):ContentElement
     {
       if(!node)
         return null;
+      
+      var parentName:String = node.localName();
+      
+      if(ancestorList.length)
+        parentName = ancestorList[ancestorList.length - 1].localName();
+      
+      if(node.nodeKind() != "text")
+        ancestorList.push(new XML(String(node.toXMLString().match(/\<[^\/](.*?)\>/)[0]).replace('>', '/>')));
       
       var adapter:IContentElementAdapter = getElementAdapter(parentName);
       var content:ContentElement;
@@ -56,17 +68,19 @@ package org.tinytlf.extensions.xml.layout.factory
       {
         var elements:Vector.<ContentElement> = new Vector.<ContentElement>();
         for each(var child:XML in node.*)
-          elements.push(getElementForNode(child, String(node.localName())));
+          elements.push(getElementForNode(child));
         
-        content = adapter.execute(elements, parentName, node.attributes());
+        content = adapter.execute.apply(null, [elements].concat(ancestorList));
       }
       else if(node..*.length() == 1 || node.nodeKind() != 'text')
       {
         adapter = getElementAdapter(node.localName());
-        content = adapter.execute(node.text().toString(), node.localName(), node.attributes());
+        content = adapter.execute.apply(null, [node.text().toString()].concat(ancestorList));
       }
       else
-        content = adapter.execute(node.toString(), parentName, node.parent().attributes());
+        content = adapter.execute.apply(null, [node.toString()].concat(ancestorList));
+      
+      ancestorList.pop();
       
       return content;
     }

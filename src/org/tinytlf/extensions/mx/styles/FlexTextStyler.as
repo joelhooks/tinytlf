@@ -6,6 +6,7 @@ package org.tinytlf.extensions.mx.styles
   import mx.styles.CSSStyleDeclaration;
   import mx.styles.IStyleManager2;
   
+  import org.tinytlf.extensions.mx.core.FlexStyleProxy;
   import org.tinytlf.styles.TextStyler;
   
   public class FlexTextStyler extends TextStyler
@@ -13,20 +14,31 @@ package org.tinytlf.extensions.mx.styles
     public function FlexTextStyler()
     {
       super();
+      style = new FlexStyleProxy();
     }
     
-    private var styleDeclaration:CSSStyleDeclaration;
+    private var css:CSSStyleDeclaration;
     
-    override public function set styleName(value:String):void
+    override public function set style(value:Object):void
     {
-      super.styleName = value;
+      super.style = value;
       
-      styleDeclaration = styleManager.getStyleDeclaration(styleName || "") || new CSSStyleDeclaration()
+      if(value is String)
+      {
+        var name:String = String(value);
+        if(name.indexOf(".") != 0)
+          name = "." + name;
+        
+        css = new CSSStyleDeclaration(name);
+        
+        for(var s:String in styles)
+          css.setStyle(s, styles[s]);
+      }
     }
     
     override public function getElementFormat(element:*):ElementFormat
     {
-      var mainStyleDeclaration:CSSStyleDeclaration = styleDeclaration || new CSSStyleDeclaration();
+      var mainStyleDeclaration:CSSStyleDeclaration = css || new CSSStyleDeclaration();
       var elementStyleDeclaration:CSSStyleDeclaration = styleManager.getStyleDeclaration(styleMap[element] || "") || new CSSStyleDeclaration();
       
       var reduceBoilerplate:Function = function(style:String, defaultValue:*):*

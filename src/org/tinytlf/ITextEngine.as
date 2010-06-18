@@ -1,11 +1,9 @@
 package org.tinytlf
 {
   import flash.display.Stage;
-  import flash.text.engine.TextLine;
   
   import org.tinytlf.decor.ITextDecor;
   import org.tinytlf.interaction.ITextInteractor;
-  import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.ITextLayout;
   import org.tinytlf.layout.factory.ILayoutModelFactory;
   import org.tinytlf.styles.ITextStyler;

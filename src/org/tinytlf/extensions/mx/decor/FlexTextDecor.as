@@ -3,6 +3,7 @@ package org.tinytlf.extensions.mx.decor
   import org.tinytlf.decor.ITextDecoration;
   import org.tinytlf.decor.TextDecor;
   import org.tinytlf.layout.ITextContainer;
+  import org.tinytlf.extensions.mx.core.FlexStyleProxy;
   
   public class FlexTextDecor extends TextDecor
   {
@@ -25,7 +26,7 @@ package org.tinytlf.extensions.mx.decor
       
       //Hook this decoration into the Flex StyleManager
       if(dec)
-        dec['styleProxy'] = new FlexStyleProxy(dec.styleName);
+        dec.style = new FlexStyleProxy(dec.style);
       
       return dec;
     }

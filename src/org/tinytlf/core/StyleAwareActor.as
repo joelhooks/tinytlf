@@ -7,27 +7,27 @@ package org.tinytlf.core
   use namespace flash_proxy;
   
   /**
-  * StyleAwareActor is a useful base class for objects with sealed properties
-  * but who also wish to dynamically accept and store named values. 
-  * 
-  * Since he is a Proxy implementation, he overrides the flash_proxy functions 
-  * for setting and retrieving data. If you are calling a sealed property on 
-  * StyleAwareActor or one of his subclasses, the property or function is called
-  * like normal. However, if you dynamically call or set a property on him, he
-  * calls his <code>getStyle</code> and <code>setStyle</code> methods instead.
-  * 
-  * StyleAwareActor has an internal <code>styles</code> object on which these
-  * properties and values are stored. However, you can override this
-  * functionality by passing in your own implementation to store styles on. You
-  * can do this by calling <code>setStyle("styleProxy", myProxyImplem)</code>.
-  * This will set the <code>myProxyImpl</code> instance as the new internal 
-  * styles storage object, as well as copy over all the key/value pairs currently 
-  * on the <code>myProxyImpl</code> instance.
-  * 
-  * This is particularly useful if you wish to proxy together multiple 
-  * StyleAwareActors for something similar to CSS inheritance, or to support
-  * external CSS implementations (currently Flex and F*CSS).
-  */
+   * StyleAwareActor is a useful base class for objects with sealed properties
+   * but who also wish to dynamically accept and store named values.
+   *
+   * Since he is a Proxy implementation, he overrides the flash_proxy functions
+   * for setting and retrieving data. If you are calling a sealed property on
+   * StyleAwareActor or one of his subclasses, the property or function is called
+   * like normal. However, if you dynamically call or set a property on him, he
+   * calls his <code>getStyle</code> and <code>setStyle</code> methods instead.
+   *
+   * StyleAwareActor has an internal <code>styles</code> object on which these
+   * properties and values are stored. However, you can override this
+   * functionality by passing in your own implementation to store styles on. You
+   * can do this by calling <code>setStyle("styleProxy", myProxyImplem)</code>.
+   * This will set the <code>myProxyImpl</code> instance as the new internal
+   * styles storage object, as well as copy over all the key/value pairs currently
+   * on the <code>myProxyImpl</code> instance.
+   *
+   * This is particularly useful if you wish to proxy together multiple
+   * StyleAwareActors for something similar to CSS inheritance, or to support
+   * external CSS implementations (currently Flex and F*CSS).
+   */
   public class StyleAwareActor extends Proxy implements IStyleAware
   {
     public function StyleAwareActor(styleObject:Object = null)
@@ -35,71 +35,83 @@ package org.tinytlf.core
       if(!styleObject)
         return;
       
-      if(styleObject is String)
-        styleName = String(styleObject);
-      else
-        for(var prop:String in styleObject)
-          this[prop] = styleObject[prop];
+      style = styleObject;
     }
     
     public function toString():String
     {
-      return styleName;
+      return style.toString();
     }
     
-    private var _styleName:String = "";
-    public function get styleName():String
+    private var _style:Object;
+    
+    public function get style():Object
     {
-      return _styleName;
+      return _style;
     }
     
-    public function set styleName(name:String):void
+    public function set style(value:Object):void
     {
-      if(name === _styleName)
+      if(value === _style)
         return;
       
-      if(name.indexOf(".") != 0)
-        name = "." + name;
+      if(!(value is String))
+      {
+        var proxy:Object;
+        var styleProp:String;
+        
+        // Use value as the new styles object. This allows you to pass in
+        // and use your own subclass of StyleAwareActor 
+        // (useful for F*CSS or Flex styles)
+        if(value is IStyleAware)
+        {
+          proxy = styles;
+          styles = value;
+          
+          // Copy values from the proxy styles Object to this.
+          // Since here we're copying the old styles onto the replacement styles
+          // Object, we have to be sure not to replace any styles that already
+          // exist on the new guy.
+          for(styleProp in proxy)
+            if(!(styleProp in this))
+              this[styleProp] = proxy[styleProp];
+        }
+        else
+        {
+          proxy = value;
+          // Copy values from the proxy styles Object to this.
+          for(styleProp in proxy)
+            this[styleProp] = proxy[styleProp];
+        }
+      }
       
-      _styleName = name;
-      styles['styleName'] = name;
+      _style = value;
     }
     
     protected var styles:Object = {};
     
+    public function clearStyle(styleProp:String):Boolean
+    {
+      return styleProp in styles ? delete styles[styleProp] : false;
+    }
+    
     public function getStyle(styleProp:String):*
     {
-      return styles[styleProp];
+      return styleProp in styles ? styles[styleProp] : null;
     }
     
     public function setStyle(styleProp:String, newValue:*):void
     {
-      // Because of negative logic, this statement seems backwards, but it's 
-      // just coded for the most common case.
-      if(styleProp != 'styleProxy')
-        styles[styleProp] = newValue;
-      else if(newValue)
-      {
-        var oldStyles:Object = styles;
-        // Use newValue as the new styles object. This allows you to pass in
-        // and use your own subclass of StyleAwareActor (useful for F*CSS or 
-        // Flex styles)
-        styles = newValue;
-        // Copy values from the old styles to the new as long as they aren't 
-        // already present the new styles
-        for(var s:String in oldStyles)
-          if(!(s in styles))
-            this[s] = oldStyles[s];
-      }
+      styles[styleProp] = newValue;
     }
     
-    override flash_proxy function callProperty(name:*, ...parameters):*
+    override flash_proxy function callProperty(name:*, ... parameters):*
     {
       if(name in this && this[name] is Function)
         return (this[name] as Function).apply(null, parameters);
       
       if(name == 'toString')
-        return styleName;
+        return toString();
     }
     
     override flash_proxy function setProperty(name:*, value:*):void
@@ -130,14 +142,14 @@ package org.tinytlf.core
       if(index == 0)
       {
         names.length = 0;
-        var prop:String;
-        for(prop in propertiesMap)
-          names.push(prop);
-        for(prop in styles)
+        for(var prop:String in styles)
           names.push(prop);
       }
       
-      return names[index];
+      if(index < names.length)
+        return index + 1;
+      
+      return 0;
     }
     
     override flash_proxy function nextName(index:int):String

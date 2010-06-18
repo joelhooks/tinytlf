@@ -13,20 +13,23 @@ package org.tinytlf.extensions.xhtml.layout.adapter
       super();
     }
     
-    override public function execute(data:Object, ...parameters:Array):ContentElement
+    override public function execute(data:Object, ... context:Array):ContentElement
     {
-      var attr:XMLList = parameters.pop();
-      
-      var element:ContentElement = super.execute.apply(null, [data].concat(parameters));
+      var element:ContentElement = super.execute.apply(null, [data].concat(context));
       
       if(!element)
         return null;
       
-      if(element)
+      var anchor:XML;
+      if(context.length)
+        anchor = context[0];
+      
+      if(anchor)
       {
-        var href:String = attr.(localName() == "href");
-        if(href)
-          engine.styler.mapStyle(element, {link:href});
+        var obj:Object = {};
+        obj['link'] = anchor.@href || '';
+        obj['target'] = anchor.@target || '';
+        element.userData = obj;
       }
       
       return element;

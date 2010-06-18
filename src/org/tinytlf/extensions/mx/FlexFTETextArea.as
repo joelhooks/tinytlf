@@ -100,7 +100,7 @@ package org.tinytlf.extensions.mx
     protected function hookEngine():void
     {
       if(styleName is String)
-        engine.styler.styleName = String(styleName);
+        engine.styler.style = String(styleName);
       
       //Default mapped text decorations.
       engine.decor.mapDecoration("backgroundColor", BackgroundColorDecoration);

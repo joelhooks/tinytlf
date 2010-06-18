@@ -19,9 +19,5 @@ package org.tinytlf.layout
     
     function clear():void;
     function render(blocks:Vector.<TextBlock>):void;
-    
-    function getLayoutProperties(block:TextBlock):LayoutProperties;
-    function mapLayoutProperties(block:TextBlock, properties:LayoutProperties):void;
-    function unMapLayoutProperties(block:TextBlock):Boolean;
   }
 }

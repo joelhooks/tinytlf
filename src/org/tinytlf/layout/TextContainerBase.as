@@ -220,7 +220,11 @@ package org.tinytlf.layout
     
     protected function getLayoutProperties(block:TextBlock):LayoutProperties
     {
-      return engine.layout.getLayoutProperties(block) || new LayoutProperties();
+      var data:Object = block.userData;
+      if(data is LayoutProperties)
+        return LayoutProperties(data);
+      
+      return new LayoutProperties();
     }
   }
 }

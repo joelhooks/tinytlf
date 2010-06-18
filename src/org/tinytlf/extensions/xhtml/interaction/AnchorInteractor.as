@@ -50,7 +50,7 @@ package org.tinytlf.extensions.xhtml.interaction
       
       var info:LineEventInfo = LineEventInfo.getInfo(event, this);
       
-      // If the FlashTextEngine is in the middle of rendering lines, info will
+      // If the Text Engine is in the middle of rendering lines, info will
       // be null. Don't try to mess w/ stuff while we're rendering :)
       if(!info)
         return;
@@ -58,11 +58,11 @@ package org.tinytlf.extensions.xhtml.interaction
       var engine:ITextEngine = info.engine;
       var element:ContentElement = info.element;
       
-      var obj:Object = engine.styler.getMappedStyle(element);
+      var obj:Object = element.userData
       if(!obj || !('link' in obj))
         return;
       
-      navigateToURL(new URLRequest(obj.link));
+      navigateToURL(new URLRequest(obj['link']), obj['target'] || '_blank');
     }
   }
 }

@@ -30,35 +30,23 @@ package org.tinytlf.layout
         
         public function clear():void
         {
-            var i:int = 0;
-            var n:int = _containers.length;
-            for(; i < n; i++)
+            for (var i:int = 0; i < containers.length; i++)
             {
-                _containers[i].clear();
+                containers[i].clear();
             }
         }
 
         public function resetShapes():void
         {
-            var containers:Vector.<ITextContainer> = containers;
-            var i:int;
-            var n:int;
-
-            if(containers)
-                n = containers.length;
-            else
-                return;
-
-            for (i = 0; i < n; i++)
+            for (var i:int = 0; i < containers.length; i++)
             {
-                var container:ITextContainer = containers[i] as ITextContainer;
-                container.resetShapes();
+                containers[i].resetShapes();
             }
         }
 
         public function render(blocks:Vector.<TextBlock>):void
         {
-            if(!_containers || !_containers.length || !blocks || !blocks.length)
+            if(!containers || !containers.length || !blocks || !blocks.length)
                 return;
             
             var blockIndex:int = 0;
@@ -71,12 +59,12 @@ package org.tinytlf.layout
             while(blockIndex < blocks.length)
             {
                 block = blocks[blockIndex];
-                container = _containers[containerIndex];
+                container = containers[containerIndex];
                 
                 line = container.layout(block, line);
                 
-                if(line && ++containerIndex < _containers.length)
-                    container = _containers[containerIndex];
+                if(line && ++containerIndex < containers.length)
+                    container = containers[containerIndex];
                 else if(++blockIndex < blocks.length)
                     block = blocks[blockIndex];
                 else
@@ -84,7 +72,7 @@ package org.tinytlf.layout
             }
         }
         
-        protected var _containers:Vector.<ITextContainer> = new Vector.<ITextContainer>();
+        protected var _containers:Vector.<ITextContainer> = new Vector.<ITextContainer>;
         
         public function get containers():Vector.<ITextContainer>
         {
@@ -93,7 +81,7 @@ package org.tinytlf.layout
         
         public function addContainer(container:ITextContainer):void
         {
-            if(_containers.indexOf(container) != -1)
+            if(containers.indexOf(container) != -1)
                 return;
             
             _containers.push(container);
@@ -102,7 +90,7 @@ package org.tinytlf.layout
         
         public function removeContainer(container:ITextContainer):void
         {
-            var i:int = _containers.indexOf(container);
+            var i:int = containers.indexOf(container);
             if(i == -1)
                 return;
             
@@ -112,12 +100,12 @@ package org.tinytlf.layout
         
         public function getContainerForLine(line:TextLine):ITextContainer
         {
-            var n:int = _containers.length;
+            var n:int = containers.length;
             
             for(var i:int = 0; i < n; i++)
             {
-                if(_containers[i].hasLine(line))
-                    return _containers[i];
+                if(containers[i].hasLine(line))
+                    return containers[i];
             }
             
             return null;

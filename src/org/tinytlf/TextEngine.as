@@ -194,8 +194,6 @@ package org.tinytlf
                 _stage.invalidate();
         }
         
-        protected var rendering:Boolean = false;
-        
         protected function onRender(event:Event):void
         {
             if(!_stage)
@@ -205,6 +203,8 @@ package org.tinytlf
 
             render();
         }
+
+        protected var rendering:Boolean = false;
         
         public function render():void
         {

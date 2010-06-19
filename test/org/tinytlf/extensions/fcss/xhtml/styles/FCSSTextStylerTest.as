@@ -15,13 +15,13 @@ package org.tinytlf.extensions.fcss.xhtml.styles
             {
                 fontName: Times;
                 fontSize: 26;
+                fontWeight: normal;
             }
-            #id1
+            #someID
             {
                 fontName: OverriddenFontName;
-                color: #FF0000;
             }
-            .class1
+            .someClass
             {
                 fontWeight: bold;
             }
@@ -55,10 +55,17 @@ package org.tinytlf.extensions.fcss.xhtml.styles
         [Test]
         public function uses_id_styles():void
         {
-            var format:ElementFormat = styler.getElementFormat([<_/>,<node id="id1"/>]);
+            var format:ElementFormat = styler.getElementFormat([<_/>,<node id="someID"/>]);
             
             Assert.assertTrue(format.fontDescription.fontName == 'OverriddenFontName');
-            Assert.assertTrue(format.color == 0xFF0000);
+        }
+        
+        [Test]
+        public function uses_class_styles():void
+        {
+            var format:ElementFormat = styler.getElementFormat([<_/>,<node class="someClass"/>]);
+            
+            Assert.assertTrue(format.fontDescription.fontWeight == 'bold');
         }
     }
 }

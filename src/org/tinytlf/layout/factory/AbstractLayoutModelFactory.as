@@ -6,16 +6,15 @@
  */
 package org.tinytlf.layout.factory
 {
-
+  import flash.text.engine.ContentElement;
+  import flash.text.engine.TextBlock;
+  import flash.utils.Dictionary;
+  
   import org.tinytlf.ITextEngine;
   import org.tinytlf.layout.adapter.ContentElementAdapter;
   import org.tinytlf.layout.adapter.IContentElementAdapter;
   import org.tinytlf.layout.adapter.ITextBlockAdapter;
   import org.tinytlf.layout.adapter.TextBlockAdapter;
-  
-  import flash.text.engine.ContentElement;
-  import flash.text.engine.TextBlock;
-  import flash.utils.Dictionary;
   
   public class AbstractLayoutModelFactory implements ILayoutModelFactory
   {
@@ -74,7 +73,7 @@ package org.tinytlf.layout.factory
       _engine = textEngine;
     }
     
-    protected var _blocks:Vector.<TextBlock>;
+    protected var _blocks:Vector.<TextBlock> = new Vector.<TextBlock>();
     
     public function get blocks():Vector.<TextBlock>
     {

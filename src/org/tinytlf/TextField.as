@@ -12,7 +12,6 @@ package org.tinytlf
   import org.tinytlf.decor.decorations.UnderlineDecoration;
   import org.tinytlf.extensions.xhtml.interaction.AnchorInteractor;
   import org.tinytlf.extensions.xhtml.layout.adapter.AnchorAdapter;
-  import org.tinytlf.extensions.xhtml.layout.adapter.FontAdapter;
   import org.tinytlf.extensions.xml.layout.factory.XMLBlockFactory;
   import org.tinytlf.layout.ITextContainer;
   import org.tinytlf.layout.TextContainerBase;
@@ -169,7 +168,6 @@ package org.tinytlf
       engine.decor.mapDecoration("strikethrough", StrikeThroughDecoration);
       
       engine.blockFactory.mapElementAdapter("a", AnchorAdapter);
-      engine.blockFactory.mapElementAdapter("font", FontAdapter);
       
       engine.interactor.mapMirror("a", new AnchorInteractor());
       engine.styler.mapStyle("a", {underline:true});

@@ -181,8 +181,6 @@ package org.tinytlf
             invalidateStage();
         }
         
-        protected var _invalidateStageFlag:Boolean = false;
-        
         protected function invalidateStage():void
         {
             if(!_stage)
@@ -194,8 +192,6 @@ package org.tinytlf
                 setTimeout(_stage.invalidate, 0);
             else
                 _stage.invalidate();
-            
-            _invalidateStageFlag = false;
         }
         
         protected var _rendering:Boolean = false;

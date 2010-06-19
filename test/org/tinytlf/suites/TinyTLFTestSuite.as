@@ -1,6 +1,7 @@
 package org.tinytlf.suites
 {
     import org.tinytlf.*;
+
     [Suite]
     [RunWith("org.flexunit.runners.Suite")]
     public class TinyTLFTestSuite
@@ -8,4 +9,3 @@ package org.tinytlf.suites
         public var textEngineTests:TextEngineTests;
     }
 }
-

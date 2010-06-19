@@ -5,6 +5,7 @@ package org.tinytlf
 
     import flash.events.Event;
 
+    import flash.events.TimerEvent;
     import flash.utils.Timer;
 
     import mockolate.*;
@@ -24,19 +25,18 @@ package org.tinytlf
     import org.tinytlf.layout.factory.ILayoutModelFactory;
     import org.tinytlf.styles.ITextStyler;
     import org.tinytlf.styles.TextStyler;
-    import org.tinytlf.support.TextEngineTestable;
 
     public class TextEngineTests
     {
         private var engineStage:Stage;
-        private var engine:TextEngineTestable;
+        private var engine:TextEngine;
         private var delayTimer:Timer;
 
         [Before(async, timeout=5000)]
         public function setup():void
         {
             engineStage = UIImpersonator.addChild(new UIComponent()).stage;
-            engine = new TextEngineTestable(engineStage);
+            engine = new TextEngine(engineStage);
             delayTimer = new Timer(100, 1);
             Async.proceedOnEvent(this,
                     prepare(ITextDecor,ILayoutModelFactory, ITextLayout),
@@ -139,39 +139,87 @@ package org.tinytlf
         }
 
         //----------------------------------------------------
-        //  invalidation
+        //  invalidation triggers rendering
         //----------------------------------------------------
-
-        [Test]
-        public function invalidate_sets_invalidate_lines_flag():void
+        
+        [Test(async)]
+        public function invalidate_calls_clear_on_layout_after_current_frame():void
         {
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("clear");
+
+            engine.layout = layout;
             engine.invalidate();
 
-            Assert.assertTrue(engine.linesInvalidated);
+            Async.handleEvent(this, delayTimer, TimerEvent.TIMER_COMPLETE,
+                    handleInvalidateCallsClearOnLayoutAfterCurrentFrame, 500, layout);
+
+            delayTimer.start();
         }
 
-        [Test]
-        public function invalidate_lines_sets_invalidate_lines_flag():void
+        private function handleInvalidateCallsClearOnLayoutAfterCurrentFrame(event:Event, layout:ITextLayout):void
         {
-            engine.invalidateLines();
-
-            Assert.assertTrue(engine.linesInvalidated);
+            verify(layout).method("clear").once();
         }
 
-        [Test]
-        public function invalidate_sets_invalidate_decorations_tag():void
+        [Test(async)]
+        public function invalidate_calls_render_on_layout_after_current_frame():void
         {
-            engine.invalidate();
-            
-            Assert.assertTrue(engine.decorationsInvalidated);
-        }
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("render");
 
-        [Test]
-        public function invalidate_decorations_sets_invalidate_decorations_tag():void
-        {
+            engine.layout = layout;
             engine.invalidate();
 
-            Assert.assertTrue(engine.decorationsInvalidated);
+            Async.handleEvent(this, delayTimer, TimerEvent.TIMER_COMPLETE,
+                    handleInvalidateCallsRenderOnLayoutAfterCurrentFrame, 500, layout);
+
+            delayTimer.start();
+        }
+
+        private function handleInvalidateCallsRenderOnLayoutAfterCurrentFrame(event:Event, layout:ITextLayout):void
+        {
+            verify(layout).method("render").once();
+        }
+
+        [Test(async)]
+        public function invalidate_calls_render_on_decor_after_current_frame():void
+        {
+            var decor:ITextDecor = nice(ITextDecor);
+            stub(decor).method("render");
+
+            engine.decor = decor;
+            engine.invalidate();
+
+            Async.handleEvent(this, delayTimer, TimerEvent.TIMER_COMPLETE,
+                    handleInvalidateCallsRenderOnDecorAfterCurrentFrame, 500, decor);
+
+            delayTimer.start();
+        }
+
+        private function handleInvalidateCallsRenderOnDecorAfterCurrentFrame(event:Event, decor:ITextDecor):void
+        {
+            verify(decor).method("render").once();
+        }
+
+        [Test(async)]
+        public function invalidate_calls_resetShapes_on_layout_after_current_frame():void
+        {
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("resetShapes");
+
+            engine.layout = layout;
+            engine.invalidate();
+
+            Async.handleEvent(this, delayTimer, TimerEvent.TIMER_COMPLETE,
+                    handleInvalidateCallsResetShapesOnLayoutAfterCurrentFrame, 500, layout);
+
+            delayTimer.start();
+        }
+
+        private function handleInvalidateCallsResetShapesOnLayoutAfterCurrentFrame(event:Event, layout:ITextLayout):void
+        {
+            verify(layout).method("resetShapes").once();
         }
     }
 }

@@ -113,7 +113,7 @@ package org.tinytlf.layout.factory
     
     public function createElements(... args):Vector.<ContentElement>
     {
-      _elements =  = new Vector.<ContentElement>();
+      _elements = new Vector.<ContentElement>();
       return elements;
     }
     

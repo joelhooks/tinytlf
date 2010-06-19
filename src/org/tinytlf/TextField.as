@@ -18,7 +18,6 @@ package org.tinytlf
     import org.tinytlf.decor.decorations.UnderlineDecoration;
     import org.tinytlf.extensions.xhtml.interaction.AnchorInteractor;
     import org.tinytlf.extensions.xhtml.layout.adapter.AnchorAdapter;
-    import org.tinytlf.extensions.xml.layout.factory.XMLBlockFactory;
     import org.tinytlf.layout.ITextContainer;
     import org.tinytlf.layout.TextContainerBase;
     

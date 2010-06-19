@@ -70,9 +70,19 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                     if(idName)
                         str += " #" + idName;
                     
-                    //  Math.random() * one billion. reasonably safe for unique identifying...
-                    if('style' in attributes)
-                        uniqueNodeName = ' node' + String(Math.random() * 100000000000) + "style{" + attributes['style'] + "}"; 
+                    if(attributes.length() > 0)
+                    {
+                        //  Math.random() * one billion. reasonably safe for unique identifying...
+                        uniqueNodeName = ' node' + String(Math.random() * 100000000000) + "style{";// + attributes['style'] + "}";
+                        for(attr in attributes)
+                        {
+                            if(attr == 'class' || attr == 'id')
+                                continue;
+                            
+                            uniqueNodeName += (attr == 'style') ? attributes[attr] : (attr + ": " + attributes[attr] + ";");
+                        }
+                        uniqueNodeName += "}";
+                    }
                     if(uniqueNodeName)
                         str += uniqueNodeName;
                     

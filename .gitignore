@@ -1,5 +1,4 @@
 Thumbs.db
-.*
 bin-*
 bin
 html-template
@@ -22,6 +21,7 @@ CVS/*
 docs/*
 obj/*
 
+.fxpProperties
 .actionScriptProperties
 .flexProperties
 .flexLibProperties

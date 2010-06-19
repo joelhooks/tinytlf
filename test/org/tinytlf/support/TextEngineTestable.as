@@ -23,13 +23,13 @@ package org.tinytlf.support
         override public function invalidateLines():void
         {
             super.invalidateLines();
-            linesInvalidated = _invalidateLinesFlag;
+            linesInvalidated = invalidateLinesFlag;
         }
 
         override public function invalidateDecorations():void
         {
             super.invalidateDecorations();
-            decorationsInvalidated = _invalidateDecorationsFlag;
+            decorationsInvalidated = invalidateDecorationsFlag;
         }
     }
 }

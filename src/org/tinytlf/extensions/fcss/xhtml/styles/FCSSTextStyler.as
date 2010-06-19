@@ -80,14 +80,13 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                             uniqueNodeName += (attr == 'style') ? attributes[attr] : (attr + ": " + attributes[attr] + ";");
                         }
                         uniqueNodeName += "}";
-                    }
-                    if(uniqueNodeName)
                         str += uniqueNodeName;
                         FStyleProxy(style).sheet.parseCSS(str);
                         fStyle = getStyle(str);
+                        nodeCache[node] = fStyle;
                     }
-                    
-                    nodeCache[node] = true;
+                    else
+                        nodeCache[node] = true;
                 }
                 
                 if(node.localName())

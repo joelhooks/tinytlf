@@ -8,8 +8,9 @@ package org.tinytlf.extensions.fcss.xhtml.styles
 {
     import com.flashartofwar.fcss.styles.IStyle;
     import com.flashartofwar.fcss.stylesheets.FStyleSheet;
+    import com.flashartofwar.fcss.utils.TypeHelperUtil;
     
-    import flash.text.engine.ElementFormat;
+    import flash.text.engine.*;
     import flash.utils.Dictionary;
     
     import org.tinytlf.extensions.fcss.xhtml.core.FStyleProxy;
@@ -34,7 +35,6 @@ package org.tinytlf.extensions.fcss.xhtml.styles
             //  Context is an array of XML nodes, the currently processing
             //  node and its parents, along with all their attributes.
             var context:Array = (element as Array);
-            var format:ElementFormat = new ElementFormat();
             
             var node:XML;
             var attributes:XMLList;
@@ -46,9 +46,10 @@ package org.tinytlf.extensions.fcss.xhtml.styles
             var className:String;
             var idName:String;
             var uniqueNodeName:String;
-            var inheritanceStructure:String = 'global ';
+            var inheritanceStructure:Array = ['global'];
             
             var fStyle:IStyle;
+            var str:String = '';
             
             for(i = 0; i < n; i++)
             {
@@ -60,7 +61,6 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                 
                 if(!(node in nodeCache))
                 {
-                    var str:String = '';
                     if(node.localName())
                         str += node.localName();
                     if(className)
@@ -71,7 +71,7 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                     if(attributes.length() > 0)
                     {
                         //  Math.random() * one billion. reasonably safe for unique identifying...
-                        uniqueNodeName = ' node' + String(Math.random() * 100000000000) + "style{";// + attributes['style'] + "}";
+                        uniqueNodeName = ' node' + String(Math.random() * 100000000000) + "style{"; // + attributes['style'] + "}";
                         for(attr in attributes)
                         {
                             if(attr == 'class' || attr == 'id')
@@ -83,32 +83,54 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                         str += uniqueNodeName;
                         FStyleProxy(style).sheet.parseCSS(str);
                         fStyle = getStyle(str);
-                        nodeCache[node] = fStyle;
                     }
-                    else
-                        nodeCache[node] = true;
+                    
+                    nodeCache[node] = true;
                 }
                 
                 if(node.localName())
-                    inheritanceStructure += ' ' + node.localName();
+                    str = node.localName();
                 if(className)
-                    inheritanceStructure += " ." + className;
+                    str += " ." + className;
                 if(idName)
-                    inheritanceStructure += " #" + idName;
+                    str += " #" + idName;
                 if(uniqueNodeName)
-                    inheritanceStructure += uniqueNodeName;
+                    str += uniqueNodeName;
+                
+                inheritanceStructure.push(str);
                 
                 className = '';
                 idName = '';
                 uniqueNodeName = '';
             }
             
-            fStyle = getStyle(inheritanceStructure);
-            for(attr in fStyle)
-            {
-                if(attr in format)
-                    format[attr] = fStyle[attr];
-            }
+            fStyle = FStyleProxy(style).sheet.getStyle.apply(null, inheritanceStructure);
+            
+            var format:ElementFormat = new ElementFormat(
+                new FontDescription(
+                TypeHelperUtil.getType(fStyle["fontName"] || "_sans", 'string'),
+                fStyle["fontWeight"] || FontWeight.NORMAL,
+                fStyle["fontStyle"] || FontPosture.NORMAL,
+                fStyle["fontLookup"] || FontLookup.DEVICE,
+                fStyle["renderingMode"] || RenderingMode.CFF,
+                fStyle["cffHinting"] || CFFHinting.HORIZONTAL_STEM
+                ),
+                fStyle["fontSize"] || 12,
+                fStyle["color"] || 0x0,
+                fStyle["fontAlpha"] || 1,
+                fStyle["textRotation"] || TextRotation.AUTO,
+                fStyle["dominantBaseLine"] || TextBaseline.ROMAN,
+                fStyle["alignmentBaseLine"] || TextBaseline.USE_DOMINANT_BASELINE,
+                fStyle["baseLineShift"] || 0.0,
+                fStyle["kerning"] || Kerning.ON,
+                fStyle["trackingRight"] || 0.0,
+                fStyle["trackingLeft"] || 0.0,
+                fStyle["locale"] || "en",
+                fStyle["breakOpportunity"] || BreakOpportunity.AUTO,
+                fStyle["digitCase"] || DigitCase.DEFAULT,
+                fStyle["digitWidth"] || DigitWidth.DEFAULT,
+                fStyle["ligatureLevel"] || LigatureLevel.COMMON,
+                fStyle["typographicCase"] || TypographicCase.DEFAULT);
             
             return format;
         }

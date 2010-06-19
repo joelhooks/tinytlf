@@ -51,7 +51,7 @@ package org.tinytlf.styles
             
             return new ElementFormat(
                 new FontDescription(
-                reduceBoilerplate("fontFamily", "_sans"),
+                reduceBoilerplate("fontName", "_sans"),
                 reduceBoilerplate("fontWeight", FontWeight.NORMAL),
                 reduceBoilerplate("fontStyle", FontPosture.NORMAL),
                 reduceBoilerplate("fontLookup", FontLookup.DEVICE),

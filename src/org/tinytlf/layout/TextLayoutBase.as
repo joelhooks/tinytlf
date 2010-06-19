@@ -41,11 +41,8 @@ package org.tinytlf.layout
         
         public function render(blocks:Vector.<TextBlock>):void
         {
-            if(!_containers || !_containers.length)
-                throw new Error('ITextLayout needs containers to render on.');
-            
-            if(!blocks || !blocks.length)
-                throw new Error('ITextLayout needs blocks to render. Is your data parsing correctly?');
+            if(!_containers || !_containers.length || !blocks || !blocks.length)
+                return;
             
             var blockIndex:int = 0;
             var containerIndex:int = 0;

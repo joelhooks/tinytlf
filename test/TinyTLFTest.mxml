@@ -7,7 +7,6 @@
 	<mx:Script>
 		<![CDATA[
         import org.flexunit.internals.TraceListener;
-        import org.flexunit.listeners.CIListener;
         import org.flexunit.runner.FlexUnitCore;
         import org.tinytlf.suites.TinyTLFTestSuite;
 
@@ -21,7 +20,6 @@
         private function onCreationComplete():void
         {
             core = new FlexUnitCore();
-            core.addListener(new CIListener());
             core.addListener(new TraceListener());
             core.run(TinyTLFTestSuite);
         }

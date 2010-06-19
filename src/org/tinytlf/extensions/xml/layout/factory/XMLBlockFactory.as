@@ -77,16 +77,16 @@ package org.tinytlf.extensions.xml.layout.factory
                     elements.push(getElementForNode(child));
                 
                 content = adapter.execute.apply(null, [elements].concat(ancestorList));
+                ancestorList.pop();
             }
             else if(node..*.length() == 1 || node.nodeKind() != 'text')
             {
                 adapter = getElementAdapter(node.localName());
                 content = adapter.execute.apply(null, [node.text().toString()].concat(ancestorList));
+                ancestorList.pop();
             }
             else
                 content = adapter.execute.apply(null, [node.toString()].concat(ancestorList));
-            
-            ancestorList.pop();
             
             return content;
         }

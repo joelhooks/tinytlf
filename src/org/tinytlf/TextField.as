@@ -28,7 +28,6 @@ package org.tinytlf
             super();
             
             width = 100;
-            height = 100;
             
             hookEngine();
         }

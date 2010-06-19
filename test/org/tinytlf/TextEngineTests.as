@@ -1,29 +1,19 @@
 package org.tinytlf
 {
-    import flash.display.Sprite;
 
     import flash.display.Stage;
 
     import flash.events.Event;
 
-    import flash.events.TimerEvent;
-    import flash.text.engine.TextBlock;
-
     import flash.utils.Timer;
 
-    import mockolate.nice;
-    import mockolate.prepare;
-    import mockolate.strict;
-    import mockolate.stub;
-
-    import mockolate.verify;
+    import mockolate.*;
 
     import mx.core.UIComponent;
 
     import org.flexunit.Assert;
     import org.flexunit.async.Async;
     import org.fluint.uiImpersonation.UIImpersonator;
-    import org.osmf.events.TimeEvent;
     import org.tinytlf.decor.ITextDecor;
     import org.tinytlf.decor.TextDecor;
     import org.tinytlf.interaction.ITextInteractor;
@@ -101,7 +91,7 @@ package org.tinytlf
         public function engine_has_default_layout():void
         {
             var layout:ITextLayout = engine.layout;
-            UIComponent
+
             Assert.assertTrue(layout is TextLayoutBase);
         }
 

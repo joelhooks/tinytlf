@@ -159,25 +159,25 @@ package org.tinytlf
             invalidateDecorations();
         }
         
-        protected var _invalidateLinesFlag:Boolean = false;
+        protected var invalidateLinesFlag:Boolean = false;
         
         public function invalidateLines():void
         {
-            if(_invalidateLinesFlag)
+            if(invalidateLinesFlag)
                 return;
             
-            _invalidateLinesFlag = true;
+            invalidateLinesFlag = true;
             invalidateStage();
         }
         
-        protected var _invalidateDecorationsFlag:Boolean = false;
+        protected var invalidateDecorationsFlag:Boolean = false;
         
         public function invalidateDecorations():void
         {
-            if(_invalidateDecorationsFlag)
+            if(invalidateDecorationsFlag)
                 return;
             
-            _invalidateDecorationsFlag = true;
+            invalidateDecorationsFlag = true;
             invalidateStage();
         }
         
@@ -188,13 +188,13 @@ package org.tinytlf
             
             _stage.addEventListener(Event.RENDER, onRender);
             
-            if(_rendering)
+            if(rendering)
                 setTimeout(_stage.invalidate, 0);
             else
                 _stage.invalidate();
         }
         
-        protected var _rendering:Boolean = false;
+        protected var rendering:Boolean = false;
         
         protected function onRender(event:Event):void
         {
@@ -202,23 +202,23 @@ package org.tinytlf
                 return;
             
             _stage.removeEventListener(Event.RENDER, onRender);
-            
-            _rendering = true;
-            
+
             render();
-            
-            _rendering = false;
         }
         
         public function render():void
         {
-            if(_invalidateLinesFlag)
+            rendering = true;
+
+            if(invalidateLinesFlag)
                 renderLines();
-            _invalidateLinesFlag = false;
+            invalidateLinesFlag = false;
             
-            if(_invalidateDecorationsFlag)
+            if(invalidateDecorationsFlag)
                 renderDecorations();
-            _invalidateDecorationsFlag = false;
+            invalidateDecorationsFlag = false;
+
+            rendering = false;
         }
         
         public function renderLines():void

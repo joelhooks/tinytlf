@@ -6,10 +6,8 @@
  */
 package org.tinytlf.layout
 {
-    import flash.display.DisplayObjectContainer;
     import flash.text.engine.TextBlock;
     import flash.text.engine.TextLine;
-    import flash.utils.Dictionary;
     
     import org.tinytlf.ITextEngine;
     

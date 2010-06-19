@@ -6,7 +6,6 @@
  */
 package org.tinytlf
 {
-    import flash.display.DisplayObjectContainer;
     import flash.display.Stage;
     import flash.events.Event;
     import flash.events.EventDispatcher;

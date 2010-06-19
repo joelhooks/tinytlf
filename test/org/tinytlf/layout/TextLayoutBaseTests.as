@@ -167,6 +167,7 @@ package org.tinytlf.layout
 
             layout.render(blocks);
 
+
             verify(container2).method("layout").once();
         }
 
@@ -186,6 +187,7 @@ package org.tinytlf.layout
             layout.addContainer(container);
 
             layout.render(blocks);
+1
 
             verify(container).method("layout").args(block, null).once();
             verify(container).method("layout").args(block2, null).once();
@@ -212,6 +214,7 @@ package org.tinytlf.layout
             layout.addContainer(container2);
 
             layout.render(blocks);
+
 
             verify(container).method("layout").args(block, null).once();
 

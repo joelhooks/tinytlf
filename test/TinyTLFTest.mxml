@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-                xmlns:fu="http://www.adobe.com/2009/flexUnitUIRunner"
-                creationComplete="onCreationComplete()"
-                width="200" height="200"
-                backgroundColor="#FFFFFF" horizontalScrollPolicy="off" verticalScrollPolicy="off">
-    <mx:Script>
+<mx:Application  xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:fu="http://www.adobe.com/2009/flexUnitUIRunner"
+				creationComplete="onCreationComplete()"
+				width="200" height="200"
+				backgroundColor="#FFFFFF" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+	<mx:Script>
 		<![CDATA[
         import org.flexunit.internals.TraceListener;
         import org.flexunit.listeners.CIListener;

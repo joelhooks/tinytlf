@@ -8,12 +8,10 @@ package org.tinytlf.extensions.fcss.xhtml.styles
 {
     import com.flashartofwar.fcss.styles.IStyle;
     import com.flashartofwar.fcss.stylesheets.FStyleSheet;
-    import com.flashartofwar.fcss.stylesheets.IStyleSheet;
     
     import flash.text.engine.ElementFormat;
     import flash.utils.Dictionary;
     
-    import org.tinytlf.decor.decorations.StrikeThroughDecoration;
     import org.tinytlf.extensions.fcss.xhtml.core.FStyleProxy;
     import org.tinytlf.styles.TextStyler;
     
@@ -48,7 +46,7 @@ package org.tinytlf.extensions.fcss.xhtml.styles
             var className:String;
             var idName:String;
             var uniqueNodeName:String;
-            var inheritanceStructure:String = '';
+            var inheritanceStructure:String = 'global ';
             
             var fStyle:IStyle;
             
@@ -82,13 +80,13 @@ package org.tinytlf.extensions.fcss.xhtml.styles
                             uniqueNodeName += (attr == 'style') ? attributes[attr] : (attr + ": " + attributes[attr] + ";");
                         }
                         uniqueNodeName += "}";
-                    }
-                    if(uniqueNodeName)
                         str += uniqueNodeName;
-                    
-                    FStyleProxy(style).sheet.parseCSS(str);
-                    fStyle = getStyle(str);
-                    nodeCache[node] = fStyle;
+                        FStyleProxy(style).sheet.parseCSS(str);
+                        fStyle = getStyle(str);
+                        nodeCache[node] = fStyle;
+                    }
+                    else
+                        nodeCache[node] = true;
                 }
                 
                 if(node.localName())

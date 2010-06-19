@@ -13,7 +13,7 @@ package org.tinytlf.layout
     import flash.text.engine.TextBlock;
     import flash.text.engine.TextLine;
     import flash.utils.Dictionary;
-    
+
     import org.tinytlf.ITextEngine;
     import org.tinytlf.layout.description.TextAlign;
     
@@ -68,21 +68,35 @@ package org.tinytlf.layout
             if(shapesContainer === _shapes)
                 return;
             
-            var children:Array = [];
-            
-            if(shapes)
-            {
-                while(shapes.numChildren)
-                    children.push(shapes.removeChildAt(0));
-                
-                if(shapes.parent && shapes.parent.contains(shapes))
-                    shapes.parent.removeChild(shapes);
-            }
-            
+            var children:Array = prepareShapesChildren();
+
             _shapes = shapesContainer;
             
             while(children.length)
                 shapes.addChild(children.shift());
+        }
+
+        private function prepareShapesChildren():Array
+        {
+            var children:Array = [];
+            if (shapes)
+            {
+                transferShapesChildren(children);
+                removeShapesFromParent();
+            }
+            return children;
+        }
+
+        private function removeShapesFromParent():void
+        {
+            if (shapes.parent && shapes.parent.contains(shapes))
+                shapes.parent.removeChild(shapes);
+        }
+
+        private function transferShapesChildren(toArray:Array):void
+        {
+            while (shapes.numChildren)
+                toArray.push(shapes.removeChildAt(0));
         }
         
         protected var _allowedWidth:Number = NaN;

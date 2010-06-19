@@ -221,5 +221,57 @@ package org.tinytlf
         {
             verify(layout).method("resetShapes").once();
         }
+
+        //----------------------------------------------------
+        //  rendering
+        //----------------------------------------------------
+
+        [Test]
+        public function render_lines_renders_layout():void
+        {
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("render");
+
+            engine.layout = layout;
+            engine.renderLines();
+
+            verify(layout).method("render").once();
+        }
+
+        [Test]
+        public function render_lines_clears_layout():void
+        {
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("clear");
+
+            engine.layout = layout;
+            engine.renderLines();
+
+            verify(layout).method("clear").once();
+        }
+
+        [Test]
+        public function render_decorations_resets_shapes_in_layout():void
+        {
+            var layout:ITextLayout = nice(ITextLayout);
+            stub(layout).method("resetShapes");
+
+            engine.layout = layout;
+            engine.renderDecorations();
+
+            verify(layout).method("resetShapes").once();
+        }
+
+        [Test]
+        public function render_decorations_renders_decor():void
+        {
+            var decor:ITextDecor = nice(ITextDecor);
+            stub(decor).method("render");
+
+            engine.decor = decor;
+            engine.renderDecorations();
+
+            verify(decor).method("render").once();
+        }
     }
 }

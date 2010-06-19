@@ -19,12 +19,12 @@ package org.tinytlf.layout
 
     public class TextLayoutBaseTests
     {
-        private var textLayout:TextLayoutBase;
+        private var layout:TextLayoutBase;
 
         [Before(async)]
         public function setup():void
         {
-            textLayout = new TextLayoutBase();
+            layout = new TextLayoutBase();
             Async.proceedOnEvent(this,
                     prepare(ITextEngine, ITextContainer),
                     Event.COMPLETE);            
@@ -33,7 +33,7 @@ package org.tinytlf.layout
         [After]
         public function tearDown():void
         {
-            textLayout = null;
+            layout = null;
         }
 
         //----------------------------------------------------
@@ -43,7 +43,7 @@ package org.tinytlf.layout
         [Test]
         public function text_layout_was_constructed():void
         {
-            assertThat(textLayout, notNullValue());
+            assertThat(layout, notNullValue());
         }
 
         [Test]
@@ -51,15 +51,15 @@ package org.tinytlf.layout
         {
             var engine:ITextEngine = nice(ITextEngine);
 
-            textLayout.engine = engine;
+            layout.engine = engine;
 
-            assertThat(textLayout.engine, strictlyEqualTo(engine));
+            assertThat(layout.engine, strictlyEqualTo(engine));
         }
 
         [Test]
         public function containers_initialized_to_empty_vector():void
         {
-            assertThat(textLayout.containers.length, equalTo(0));
+            assertThat(layout.containers.length, equalTo(0));
         }
 
         //----------------------------------------------------
@@ -71,9 +71,9 @@ package org.tinytlf.layout
         {
             var container:ITextContainer = stubBasicTextContainer();
 
-            textLayout.addContainer(container);
+            layout.addContainer(container);
 
-            assertThat(textLayout.containers.length, equalTo(1));
+            assertThat(layout.containers.length, equalTo(1));
         }
 
         [Test]
@@ -81,10 +81,10 @@ package org.tinytlf.layout
         {
             var container:ITextContainer = stubBasicTextContainer();
 
-            textLayout.addContainer(container);
-            textLayout.removeContainer(container);
+            layout.addContainer(container);
+            layout.removeContainer(container);
 
-            assertThat(textLayout.containers.length, equalTo(0));
+            assertThat(layout.containers.length, equalTo(0));
         }
 
         [Test]
@@ -97,8 +97,8 @@ package org.tinytlf.layout
             var container:ITextContainer = stubBasicTextContainer();
             stub(container).method("hasLine").args(line).returns(true);
 
-            textLayout.addContainer(container);
-            retrievedContainer = textLayout.getContainerForLine(line);
+            layout.addContainer(container);
+            retrievedContainer = layout.getContainerForLine(line);
 
             assertThat(retrievedContainer, strictlyEqualTo(container));
         }
@@ -108,8 +108,8 @@ package org.tinytlf.layout
         {
             var container:ITextContainer = stubBasicTextContainer();
 
-            textLayout.addContainer(container);
-            textLayout.clear();
+            layout.addContainer(container);
+            layout.clear();
 
             verify(container).method("clear").once();
         }
@@ -119,8 +119,8 @@ package org.tinytlf.layout
         {
             var container:ITextContainer = stubBasicTextContainer();
 
-            textLayout.addContainer(container);
-            textLayout.resetShapes();
+            layout.addContainer(container);
+            layout.resetShapes();
 
             verify(container).method("resetShapes").once();
         }
@@ -138,11 +138,11 @@ package org.tinytlf.layout
             var container:ITextContainer = nice(ITextContainer);
             stub(container).method("layout").args(block, instanceOf(TextLine));
 
-            textLayout.addContainer(container);
+            layout.addContainer(container);
 
             blocks.push(block);
 
-            textLayout.render(blocks)
+            layout.render(blocks);
 
             verify(container).method("layout").once();
         }
@@ -162,10 +162,10 @@ package org.tinytlf.layout
 
             blocks.push(block);
 
-            textLayout.addContainer(container);
-            textLayout.addContainer(container2);
+            layout.addContainer(container);
+            layout.addContainer(container2);
 
-            textLayout.render(blocks);
+            layout.render(blocks);
 
             verify(container2).method("layout").once();
         }
@@ -183,9 +183,9 @@ package org.tinytlf.layout
             blocks.push(block);
             blocks.push(block2);
 
-            textLayout.addContainer(container);
+            layout.addContainer(container);
 
-            textLayout.render(blocks);
+            layout.render(blocks);
 
             verify(container).method("layout").args(block, null).once();
             verify(container).method("layout").args(block2, null).once();
@@ -208,10 +208,10 @@ package org.tinytlf.layout
             blocks.push(block);
             blocks.push(block2);
 
-            textLayout.addContainer(container);
-            textLayout.addContainer(container2);
+            layout.addContainer(container);
+            layout.addContainer(container2);
 
-            textLayout.render(blocks);
+            layout.render(blocks);
 
             verify(container).method("layout").args(block, null).once();
 

@@ -138,7 +138,13 @@ package org.tinytlf.layout
             
             height = 0;
         }
-        
+
+        public function resetShapes():void
+        {
+            while (shapes && shapes.numChildren)
+                    shapes.removeChildAt(0);
+        }
+
         public function layout(block:TextBlock, line:TextLine):TextLine
         {
             var doc:DisplayObjectContainer;

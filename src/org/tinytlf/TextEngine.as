@@ -234,18 +234,7 @@ package org.tinytlf
         
         public function renderDecorations():void
         {
-            var containers:Vector.<ITextContainer> = layout.containers;
-            var i:int = 0;
-            var n:int = containers.length;
-            var doc:DisplayObjectContainer;
-            
-            for(; i < n; i++)
-            {
-                doc = containers[i].shapes;
-                while(doc && doc.numChildren)
-                    doc.removeChildAt(0);
-            }
-            
+            layout.resetShapes();
             decor.render();
         }
     }

@@ -24,6 +24,7 @@ package org.tinytlf.layout
         function getContainerForLine(line:TextLine):ITextContainer;
         
         function clear():void;
+        function resetShapes():void;
         function render(blocks:Vector.<TextBlock>):void;
     }
 }

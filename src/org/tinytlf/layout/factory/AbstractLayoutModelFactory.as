@@ -6,6 +6,7 @@
  */
 package org.tinytlf.layout.factory
 {
+
   import org.tinytlf.ITextEngine;
   import org.tinytlf.layout.adapter.ContentElementAdapter;
   import org.tinytlf.layout.adapter.IContentElementAdapter;
@@ -77,14 +78,14 @@ package org.tinytlf.layout.factory
     
     public function get blocks():Vector.<TextBlock>
     {
-      return _blocks.concat();
+      return _blocks ? _blocks.concat() : new Vector.<TextBlock>;
     }
     
     protected var _elements:Vector.<ContentElement>;
     
     public function get elements():Vector.<ContentElement>
     {
-      return _elements.concat();
+      return _elements ? _elements.concat() : new Vector.<ContentElement>;
     }
     
     public function createBlocks(... args):Vector.<TextBlock>

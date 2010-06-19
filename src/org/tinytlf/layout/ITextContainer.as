@@ -35,7 +35,7 @@ package org.tinytlf.layout
         
         function clear():void;
         function layout(block:TextBlock, line:TextLine):TextLine;
-        
+        function resetShapes():void;
         function hasLine(line:TextLine):Boolean;
     }
 }

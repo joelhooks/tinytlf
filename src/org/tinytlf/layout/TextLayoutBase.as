@@ -6,6 +6,7 @@
  */
 package org.tinytlf.layout
 {
+    import flash.display.DisplayObjectContainer;
     import flash.text.engine.TextBlock;
     import flash.text.engine.TextLine;
     import flash.utils.Dictionary;
@@ -38,10 +39,29 @@ package org.tinytlf.layout
                 _containers[i].clear();
             }
         }
-        
+
+        public function resetShapes():void
+        {
+            var containers:Vector.<ITextContainer> = containers;
+            var i:int;
+            var n:int;
+
+            if(containers)
+                n = containers.length;
+            else
+                return;
+
+            for (i = 0; i < n; i++)
+            {
+                var container:ITextContainer = containers[i] as ITextContainer;
+                container.resetShapes();
+            }
+        }
+
         public function render(blocks:Vector.<TextBlock>):void
         {
             if(!_containers || !_containers.length || !blocks || !blocks.length)
+
                 return;
             
             var blockIndex:int = 0;
@@ -71,7 +91,7 @@ package org.tinytlf.layout
         
         public function get containers():Vector.<ITextContainer>
         {
-            return _containers.concat();
+            return _containers ? _containers.concat() : new Vector.<ITextContainer>;
         }
         
         public function addContainer(container:ITextContainer):void

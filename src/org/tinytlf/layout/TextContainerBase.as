@@ -27,18 +27,18 @@ package org.tinytlf.layout
             _allowedHeight = allowedHeight;
         }
         
-        private var _container:DisplayObjectContainer;
+        protected var _target:DisplayObjectContainer;
         public function get target():DisplayObjectContainer
         {
-            return _container;
+            return _target;
         }
         
         public function set target(doc:DisplayObjectContainer):void
         {
-            if(doc == _container)
+            if(doc == _target)
                 return;
             
-            _container = doc;
+            _target = doc;
             
             shapes = Sprite(target.addChild(new Sprite()));
         }
@@ -81,7 +81,7 @@ package org.tinytlf.layout
             var children:Array = [];
             if (shapes)
             {
-                transferShapesChildren(children);
+                children = createArrayOfShapesChildren();
                 removeShapesFromParent();
             }
             return children;
@@ -93,10 +93,12 @@ package org.tinytlf.layout
                 shapes.parent.removeChild(shapes);
         }
 
-        private function transferShapesChildren(toArray:Array):void
+        private function createArrayOfShapesChildren():Array
         {
+            var children:Array = [];
             while (shapes.numChildren)
-                toArray.push(shapes.removeChildAt(0));
+                children.push(shapes.removeChildAt(0));
+            return children;
         }
         
         protected var _allowedWidth:Number = NaN;

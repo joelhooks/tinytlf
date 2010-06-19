@@ -59,7 +59,6 @@ package org.tinytlf.layout
         public function render(blocks:Vector.<TextBlock>):void
         {
             if(!_containers || !_containers.length || !blocks || !blocks.length)
-
                 return;
             
             var blockIndex:int = 0;

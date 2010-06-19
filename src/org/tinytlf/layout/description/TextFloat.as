@@ -1,13 +1,14 @@
 package org.tinytlf.layout.description
 {
-  public class TextFloat extends Enum
-  {
-    public function TextFloat(identifier:String)
+    public class TextFloat extends Enum
     {
-      super(identifier);
+        public function TextFloat(identifier:String)
+        {
+            super(identifier);
+        }
+        
+        public static const LEFT:TextFloat = new TextFloat("left");
+        public static const RIGHT:TextFloat = new TextFloat("right");
     }
-    
-    public static const LEFT:TextFloat = new TextFloat("left");
-    public static const RIGHT:TextFloat = new TextFloat("right");
-  }
 }
+

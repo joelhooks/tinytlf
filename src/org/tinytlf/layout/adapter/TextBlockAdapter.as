@@ -1,30 +1,31 @@
 package org.tinytlf.layout.adapter
 {
-  import flash.text.engine.ContentElement;
-  import flash.text.engine.TextBlock;
-  
-  import org.tinytlf.ITextEngine;
-  
-  public class TextBlockAdapter implements ITextBlockAdapter
-  {
-    public function execute(content:ContentElement, ...context):TextBlock
-    {
-      return new TextBlock(content);
-    }
+    import flash.text.engine.ContentElement;
+    import flash.text.engine.TextBlock;
     
-    private var _engine:ITextEngine;
+    import org.tinytlf.ITextEngine;
     
-    public function get engine():ITextEngine
+    public class TextBlockAdapter implements ITextBlockAdapter
     {
-      return _engine;
+        public function execute(content:ContentElement, ...context):TextBlock
+        {
+            return new TextBlock(content);
+        }
+        
+        private var _engine:ITextEngine;
+        
+        public function get engine():ITextEngine
+        {
+            return _engine;
+        }
+        
+        public function set engine(textEngine:ITextEngine):void
+        {
+            if(textEngine === _engine)
+                return;
+            
+            _engine = textEngine;
+        }
     }
-    
-    public function set engine(textEngine:ITextEngine):void
-    {
-      if(textEngine === _engine)
-        return;
-      
-      _engine = textEngine;
-    }
-  }
 }
+

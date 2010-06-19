@@ -1,16 +1,17 @@
 package org.tinytlf.layout.description
 {
-  public class Enum
-  {
-    public function Enum(identifier:String)
+    public class Enum
     {
-      _id = identifier;
+        public function Enum(identifier:String)
+        {
+            _id = identifier;
+        }
+        
+        private var _id:String = "";
+        public function get id():String
+        {
+            return _id;
+        }
     }
-    
-    private var _id:String = "";
-    public function get id():String
-    {
-      return _id;
-    }
-  }
 }
+

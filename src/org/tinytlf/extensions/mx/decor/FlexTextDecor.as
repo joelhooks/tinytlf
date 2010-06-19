@@ -1,34 +1,35 @@
 package org.tinytlf.extensions.mx.decor
 {
-  import org.tinytlf.decor.ITextDecoration;
-  import org.tinytlf.decor.TextDecor;
-  import org.tinytlf.layout.ITextContainer;
-  import org.tinytlf.extensions.mx.core.FlexStyleProxy;
-  
-  public class FlexTextDecor extends TextDecor
-  {
-    public function FlexTextDecor()
-    {
-      super();
-    }
+    import org.tinytlf.decor.ITextDecoration;
+    import org.tinytlf.decor.TextDecor;
+    import org.tinytlf.layout.ITextContainer;
+    import org.tinytlf.extensions.mx.core.FlexStyleProxy;
     
-    override public function decorate(element:*, styleObj:Object, layer:int=0, container:ITextContainer=null):void
+    public class FlexTextDecor extends TextDecor
     {
-      if(styleObj is String)
-        styleObj = new FlexStyleProxy(String(styleObj));
-      
-      super.decorate(element, styleObj, layer, container);
+        public function FlexTextDecor()
+        {
+            super();
+        }
+        
+        override public function decorate(element:*, styleObj:Object, layer:int=0, container:ITextContainer=null):void
+        {
+            if(styleObj is String)
+                styleObj = new FlexStyleProxy(String(styleObj));
+            
+            super.decorate(element, styleObj, layer, container);
+        }
+        
+        override public function getDecoration(styleProp:String, container:ITextContainer = null):ITextDecoration
+        {
+            var dec:ITextDecoration = super.getDecoration(styleProp, container);
+            
+            //Hook this decoration into the Flex StyleManager
+            if(dec)
+                dec.style = new FlexStyleProxy(dec.style);
+            
+            return dec;
+        }
     }
-    
-    override public function getDecoration(styleProp:String, container:ITextContainer = null):ITextDecoration
-    {
-      var dec:ITextDecoration = super.getDecoration(styleProp, container);
-      
-      //Hook this decoration into the Flex StyleManager
-      if(dec)
-        dec.style = new FlexStyleProxy(dec.style);
-      
-      return dec;
-    }
-  }
 }
+

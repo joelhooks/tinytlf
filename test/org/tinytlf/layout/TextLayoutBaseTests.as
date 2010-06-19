@@ -77,6 +77,33 @@ package org.tinytlf.layout
         }
 
         [Test]
+        public function container_was_removed():void
+        {
+            var container:ITextContainer = stubBasicTextContainer();
+
+            textLayout.addContainer(container);
+            textLayout.removeContainer(container);
+
+            assertThat(textLayout.containers.length, equalTo(0));
+        }
+
+        [Test]
+        public function container_was_retrieved_for_line():void
+        {
+            var block:TextBlock = createTextBlockWithSmallContent();
+            var line:TextLine = block.createTextLine();
+            var retrievedContainer:ITextContainer;
+
+            var container:ITextContainer = stubBasicTextContainer();
+            stub(container).method("hasLine").args(line).returns(true);
+
+            textLayout.addContainer(container);
+            retrievedContainer = textLayout.getContainerForLine(line);
+
+            assertThat(retrievedContainer, strictlyEqualTo(container));
+        }
+
+        [Test]
         public function clear_calls_clear_on_containers():void
         {
             var container:ITextContainer = stubBasicTextContainer();
